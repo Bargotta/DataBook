@@ -1,0 +1,15 @@
+.btn-full-width {
+  width: 100%;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.App {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
