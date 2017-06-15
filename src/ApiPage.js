@@ -74,10 +74,10 @@ class ApiPage extends Component {
 
                 <div className="row">
                   <div className="col m6">
-                    <PersonCard />
+                    <PersonCard name="Bob Frankfurt" year="'20" projects={9} saved={4}/>
                   </div>
                   <div className="col m6">
-                    <PersonCard />
+                    <PersonCard name="John Smith" year="'18" projects={4} saved={4}/>
                   </div>
                 </div>
               </div>
