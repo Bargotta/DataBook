@@ -1,23 +1,26 @@
 import React from 'react';
 import { CardText } from 'material-ui/Card';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 import PersonIcon from './PersonIcon';
 import HoverCard from './HoverCard';
+import {selectUser} from '../actions/index'
 
-export default function PersonCard(props) {
+function PersonCard(props) {
   return (
     <HoverCard href="/profile/123" style={{color: 'black'}}>
-      <CardText>
+      <CardText onClick={() => props.selectUser(props.user)}>
         <div style={{display: 'flex'}}>
           <div style={{marginRight: '15px'}}>
             <PersonIcon />
           </div>
           <div>
             <div style={{fontSize: '30px'}}>
-              {props.name} <span style={{color: '#777'}}>{props.year}</span>
+              {props.user.first} <span style={{color: '#777'}}>{props.user.year}</span>
             </div>
             <div>
-              {props.projects} projects &bull; {props.saved} saved
+              {props.user.projects} projects &bull; {props.user.saved} saved
             </div>
           </div>
         </div>
@@ -25,3 +28,11 @@ export default function PersonCard(props) {
     </HoverCard>
   );
 }
+
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators({
+    selectUser: selectUser
+  }, dispatch);
+}
+
+export default connect(null, matchDispatchToProps)(PersonCard);

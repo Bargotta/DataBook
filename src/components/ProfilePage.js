@@ -3,11 +3,14 @@ import { Link } from 'react-router';
 import { CardTitle, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 import HoverCard from './HoverCard';
 import SaveWidget from './SaveWidget';
 import PersonIcon from './PersonIcon';
 import ProjectCard from './ProjectCard';
+import {selectUser} from '../actions/index'
 
 const ProfilePageHeader = (props) => <h2 style={{ fontSize: '2rem' }}>{props.children}</h2>;
 
@@ -20,7 +23,23 @@ function SavedCard(props) {
   );
 }
 
-export default function ProfilePage(props) {
+function CreateListItems(props) {
+  return (
+    <div> 
+      {props.users.map((user) => {
+        return (
+            <li 
+              key={user.id}
+              onClick={() => props.selectUser(user)}
+            >
+                {user.first} {user.year}
+            </li>
+        );
+      })}
+  </div>);
+}
+
+function ProfilePage(props) {
   return (
     <div>
       <nav>
@@ -32,7 +51,7 @@ export default function ProfilePage(props) {
         </div>
       </nav>
       <div className="container">
-        <h1 className="valign-wrapper"><div style={{marginRight: '20px'}}><PersonIcon size="100" /></div> Zachary Liu</h1>
+        <h1 className="valign-wrapper"><div style={{marginRight: '20px'}}><PersonIcon size="100" /></div><CreateListItems users={props.users} selectUser={props.selectUser}/></h1>
         <div className="divider" />
         <div className="row">
           <div className="col m9">
@@ -82,3 +101,18 @@ export default function ProfilePage(props) {
     </div>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    users: state.users
+  };
+}
+
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators({
+    selectUser: selectUser
+  }, dispatch);
+}
+
+
+export default connect(mapStateToProps, matchDispatchToProps)(ProfilePage);
