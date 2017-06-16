@@ -1,7 +1,9 @@
+export const USER_SELECTED = 'USER_SELECTED';
+
 export const selectUser = (user) => {
 	// console.log("You clicked on user: ", user.first);
 	return {
-		type: "USER_SELECTED",
+		type: USER_SELECTED,
 		payload: user
 	}
 };

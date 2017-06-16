@@ -1,11 +1,13 @@
 import React from 'react';
-import { CardText } from 'material-ui/Card';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
 
-import PersonIcon from './PersonIcon';
+import { bindActionCreators } from 'redux';
+import { CardText } from 'material-ui/Card';
+import { connect } from 'react-redux';
+
+
 import HoverCard from './HoverCard';
-import {selectUser} from '../actions/index'
+import PersonIcon from './PersonIcon';
+import { selectUser } from '../actions/index'
 
 function PersonCard(props) {
   return (

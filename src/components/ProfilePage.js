@@ -1,16 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router';
+
+import { bindActionCreators } from 'redux';
 import { CardTitle, CardText } from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
+import { connect } from 'react-redux';
+import { Link } from 'react-router';
+
 import FontIcon from 'material-ui/FontIcon';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import HoverCard from './HoverCard';
-import SaveWidget from './SaveWidget';
 import PersonIcon from './PersonIcon';
 import ProjectCard from './ProjectCard';
-import {selectUser} from '../actions/index'
+import SaveWidget from './SaveWidget';
+import { selectUser } from '../actions/index'
 
 const ProfilePageHeader = (props) => <h2 style={{ fontSize: '2rem' }}>{props.children}</h2>;
 

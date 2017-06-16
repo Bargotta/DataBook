@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { Link } from 'react-router';
+
 import PersonIcon from './PersonIcon';
 import SaveWidget from './SaveWidget';
 

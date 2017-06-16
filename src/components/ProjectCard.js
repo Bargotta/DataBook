@@ -1,7 +1,9 @@
 import React from 'react';
+
+import { CardTitle, CardText } from 'material-ui/Card';
+
 import HoverCard from './HoverCard';
 import PersonIcon from './PersonIcon';
-import { CardTitle, CardText } from 'material-ui/Card';
 
 export default function ProjectCard(props) {
   return (

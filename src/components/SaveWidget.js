@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import StarIcon from 'material-ui/svg-icons/toggle/star';
+
 import StarBorderIcon from 'material-ui/svg-icons/toggle/star-border';
+import StarIcon from 'material-ui/svg-icons/toggle/star';
 
 export default class SaveWidget extends Component {
   constructor(props) {

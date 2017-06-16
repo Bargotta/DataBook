@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+
 import $ from 'jquery';
+
 import RaisedButton from 'material-ui/RaisedButton';
 
 export default class ExpandingSection extends Component {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+
 import Card from 'material-ui/Card';
 
 export default class HoverCard extends Component {

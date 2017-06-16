@@ -1,19 +1,18 @@
 import React from 'react';
+
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+
 import PersonCard from './PersonCard';
 import ProjectCard from './ProjectCard';
-import {connect} from 'react-redux';
 
-function CreateUserList(props) {
+function DisplayUsers(props) {
   return (
     <div className="row">
       {
         props.users.map((user) => {
           return (
-              <div 
-                className="col m4"
-                key={user.id}
-              >
+              <div className="col m4" key={user.id}>
                 <PersonCard user={user} />
               </div>
           );
@@ -37,7 +36,7 @@ function Community(props) {
       <div className="container">
         <div className="section">
           <h1>People</h1>
-          <CreateUserList users={props.users} />
+          <DisplayUsers users={props.users} />
         </div>
         <div className="section">
           <h1>Projects</h1>

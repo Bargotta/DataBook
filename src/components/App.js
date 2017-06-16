@@ -2,11 +2,11 @@ import React from 'react';
 import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
 
 import ApiPage from './ApiPage';
-import ProjectPage from './ProjectPage';
+import Community from './Community';
+import Directory from './Directory';
 import Home from './Home';
 import ProfilePage from './ProfilePage';
-import Directory from './Directory';
-import Community from './Community';
+import ProjectPage from './ProjectPage';
 
 import './App.css';
 import 'materialize-css/bin/materialize.css'

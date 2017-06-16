@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
 import { Link } from 'react-router'
+import { connect } from 'react-redux';
+
+import $ from 'jquery';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import Chip from 'material-ui/Chip';
-import {connect} from 'react-redux';
 
 import demoApi from './demoApi';
+import ExpandingSection from './ExpandingSection';
 import PersonCard from './PersonCard';
 import SaveWidget from './SaveWidget';
-import ExpandingSection from './ExpandingSection';
 
 const ApiPageHeader = (props) => <h2 style={{ fontSize: '2rem' }}>{props.children}</h2>;
 

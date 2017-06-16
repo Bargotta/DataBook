@@ -1,10 +1,13 @@
-import allReducers from './reducers'
-import App from './components/App';
-import {createStore} from 'redux';
-import './components/index.css';
-import {Provider} from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+
+import App from './components/App';
+import allReducers from './reducers'
+
+import './components/index.css';
 
 const store = createStore(allReducers);
 
