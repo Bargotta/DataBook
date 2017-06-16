@@ -23,22 +23,6 @@ function SavedCard(props) {
   );
 }
 
-function CreateListItems(props) {
-  return (
-    <div> 
-      {props.users.map((user) => {
-        return (
-            <li 
-              key={user.id}
-              onClick={() => props.selectUser(user)}
-            >
-                {user.first} {user.year}
-            </li>
-        );
-      })}
-  </div>);
-}
-
 function ProfilePage(props) {
   return (
     <div>
@@ -51,7 +35,7 @@ function ProfilePage(props) {
         </div>
       </nav>
       <div className="container">
-        <h1 className="valign-wrapper"><div style={{marginRight: '20px'}}><PersonIcon size="100" /></div><CreateListItems users={props.users} selectUser={props.selectUser}/></h1>
+        <h1 className="valign-wrapper"><div style={{marginRight: '20px'}}><PersonIcon size="100" /></div>{props.activeUser.first}&nbsp;{props.activeUser.last}&nbsp;{props.activeUser.year}</h1>
         <div className="divider" />
         <div className="row">
           <div className="col m9">
@@ -104,7 +88,8 @@ function ProfilePage(props) {
 
 function mapStateToProps(state) {
   return {
-    users: state.users
+    users: state.users,
+    activeUser: state.activeUser
   };
 }
 
