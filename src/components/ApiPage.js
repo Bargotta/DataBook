@@ -4,6 +4,7 @@ import { Link } from 'react-router'
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import Chip from 'material-ui/Chip';
+import {connect} from 'react-redux';
 
 import demoApi from './demoApi';
 import PersonCard from './PersonCard';
@@ -74,10 +75,10 @@ class ApiPage extends Component {
 
                 <div className="row">
                   <div className="col m6">
-                    <PersonCard name="Bob Frankfurt" year="'20" projects={9} saved={4}/>
+                    <PersonCard user={this.props.users[0]}/>
                   </div>
                   <div className="col m6">
-                    <PersonCard name="John Smith" year="'18" projects={4} saved={4}/>
+                    <PersonCard user={this.props.users[1]}/>
                   </div>
                 </div>
               </div>
@@ -107,4 +108,10 @@ class ApiPage extends Component {
   }
 }
 
-export default ApiPage;
+function mapStateToProps(state) {
+  return {
+    users: state.users
+  };
+}
+
+export default connect(mapStateToProps)(ApiPage);
