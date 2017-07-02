@@ -31,6 +31,22 @@ export default function() {
 			year: "'19",
 			projects: 17,
 			saved: 7
+		},
+		{	
+			id: 5,
+			first: "Richard",
+			last: "Bern",
+			year: "'18",
+			projects: 14,
+			saved: 5
+		},
+		{	
+			id: 6,
+			first: "Sarah",
+			last: "Billing",
+			year: "'17",
+			projects: 6,
+			saved: 7
 		}
 	]
 }
