@@ -6,16 +6,18 @@ export default function LeftColumn(props) {
     return (
       <div>
         {
-          props.links.map(link => (
-            <HoverCard
-              key={link}
-              href="/community/developers"
-              style={{color: 'black'}}
-            >
-              <CardText>
-                <h5>{link}</h5>
-              </CardText>
-            </HoverCard>
+          props.items.map(item => (
+            <div key={item.id}>
+              <HoverCard
+                href={item.link}
+                style={{color: 'black'}}
+              >
+                <CardText>
+                  <h5>{item.text}</h5>
+                </CardText>
+              </HoverCard>
+              <p>{item.desc}</p>
+            </div>
           ))
         }
       </div>

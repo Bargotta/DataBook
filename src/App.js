@@ -9,6 +9,9 @@ import Directory from './Directory';
 import Community from './Community';
 import Developers from './Developers';
 import Projects from './Projects';
+import CreatePage from './CreatePage';
+import IdeaPage from './IdeaPage';
+import EventPage from './EventPage';
 
 import './App.css';
 import 'materialize-css/bin/materialize.css'
@@ -64,6 +67,9 @@ function Routes() {
         <Route path="community" component={Community} />
         <Route path="community/developers" component={Developers} />
         <Route path="community/projects" component={Projects} />
+        <Route path="community/projects/create" component={CreatePage} />
+        <Route path="community/projects/ideas" component={IdeaPage} />
+        <Route path="community/events" component={EventPage} />
         <Route path="project/:id" component={ProjectPage} />
         <Route path="profile/:id" component={ProfilePage} />
       </Route>

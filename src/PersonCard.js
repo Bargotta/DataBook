@@ -1,7 +1,6 @@
 import React from 'react';
 import { CardText } from 'material-ui/Card';
 
-import PersonIcon from './PersonIcon';
 import HoverCard from './HoverCard';
 
 export default function PersonCard(props) {
@@ -9,11 +8,8 @@ export default function PersonCard(props) {
     <HoverCard href="/profile/123" style={{color: 'black'}}>
       <CardText>
         <div style={{display: 'flex'}}>
-          <div style={{marginRight: '15px'}}>
-            <PersonIcon />
-          </div>
           <div>
-            <div style={{fontSize: '30px'}}>
+            <div style={{fontSize: '20px'}}>
               {props.name} <span style={{color: '#777'}}>{props.year}</span>
             </div>
             <div>

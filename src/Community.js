@@ -20,7 +20,7 @@ export default function Community(props) {
             <div className="card">
               <div className="card-content">
                 <span className="card-title"><i className="fa fa-book" aria-hidden="true"></i> Developers</span>
-                <p>Browse data APIs, view documentation, and see related projects.</p>
+                <p>Browse student developers.</p>
               </div>
               <div className="card-action">
                 <Link to="/community/developers">View Developers &rarr;</Link>
@@ -36,7 +36,7 @@ export default function Community(props) {
             <div className="card">
               <div className="card-content">
                 <span className="card-title"><i className="fa fa-users" aria-hidden="true"></i> Projects</span>
-                <p>Find students and projects using the Princeton APIs.</p>
+                <p>View current projects.</p>
               </div>
               <div className="card-action">
                 <Link to="/community/projects">View Projects &rarr;</Link>
@@ -52,10 +52,10 @@ export default function Community(props) {
             <div className="card">
               <div className="card-content">
                 <span className="card-title"><i className="fa fa-user" aria-hidden="true"></i> Events</span>
-                <p>View your profile.</p>
+                <p>See all events.</p>
               </div>
               <div className="card-action">
-                <Link to="/community">View Events &rarr;</Link>
+                <Link to="/community/events">View Events &rarr;</Link>
               </div>
             </div>
 

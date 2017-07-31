@@ -27,12 +27,13 @@ export default function ProfilePage(props) {
         <div className="nav-wrapper container">
           <div className="col s12">
             <Link to="/community" className="breadcrumb">Community</Link>
-            <Link className="breadcrumb">View Profile</Link>
+            <Link to="/community/developers" className="breadcrumb">Developers</Link>
+            <Link className="breadcrumb">Aaron Bargotta</Link>
           </div>
         </div>
       </nav>
       <div className="container">
-        <h1 className="valign-wrapper"><div style={{marginRight: '20px'}}><PersonIcon size="100" /></div> Zachary Liu</h1>
+        <h1 className="valign-wrapper"><div style={{marginRight: '20px'}}><PersonIcon size="100" /></div> Aaron Bargotta</h1>
         <div className="divider" />
         <div className="row">
           <div className="col m9">

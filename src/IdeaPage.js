@@ -5,7 +5,7 @@ import Search from './Search';
 import LoadMore from './LoadMore';
 import Navbar from './Navbar';
 
-export default function Projects(props) {
+export default function IdeaPage(props) {
   const options = [
     { value: 'Likes', label: 'Likes' },
     { value: 'Members Needed', label: 'Members Needed' },
@@ -18,13 +18,7 @@ export default function Projects(props) {
   const items = [
     {
       id: 1,
-      text: "Create Project",
-      desc: "lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu magna justo. Praesent in vestibulum lorem. Nullam vitae ligula ut lacus congue pretium.",
-      link: "/community/projects/create"
-    },
-    {
-      id: 2,
-      text: "Project Ideas",
+      text: "Suggest Idea",
       desc: "lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu magna justo. Praesent in vestibulum lorem. Nullam vitae ligula ut lacus congue pretium.",
       link: "/community/projects/ideas"
     }
@@ -39,6 +33,11 @@ export default function Projects(props) {
       id: 2,
       text: "Projects",
       link: "/community/projects"
+    },
+    {
+      id: 3,
+      text: "Project Ideas",
+      link: "/community/projects/ideas"
     }
   ];
   return (
@@ -68,11 +67,8 @@ export default function Projects(props) {
           <div className="col m3">
             <ProjectCard />
           </div>
-          <div className="col m3">
-            <ProjectCard />
-          </div>
           <div className="col s12">
-            <LoadMore text="Load More Projects..." />
+            <LoadMore text="Load More Ideas..." />
           </div>
         </div>
 
