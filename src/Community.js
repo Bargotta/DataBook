@@ -1,7 +1,6 @@
 import React from 'react';
+
 import { Link } from 'react-router';
-import PersonCard from './PersonCard';
-import ProjectCard from './ProjectCard';
 
 export default function Community(props) {
   return (
@@ -15,30 +14,56 @@ export default function Community(props) {
       </nav>
 
       <div className="container">
-        <div className="section">
-          <h1>People</h1>
-          <div className="row">
-            <div className="col m4">
-              <PersonCard name="Aaron Bargotta" year="'19" projects={10} saved={3}/>
+        <div className="row section">
+
+          <div className="col s12 m4">
+            <div className="card">
+              <div className="card-content">
+                <span className="card-title"><i className="fa fa-book" aria-hidden="true"></i> Developers</span>
+                <p>Browse data APIs, view documentation, and see related projects.</p>
+              </div>
+              <div className="card-action">
+                <Link to="/community/developers">View Developers &rarr;</Link>
+              </div>
             </div>
-            <div className="col m4">
-              <PersonCard name="Bill Adams" year="'19" projects={5} saved={15}/>
-            </div>
-            <div className="col m4">
-              <PersonCard name="Lucy Swartz" year="'19" projects={3} saved={1}/>
-            </div>
-          </div>
-        </div>
-        <div className="section">
-          <h1>Projects</h1>
-          <div className="row">
-            <div className="col m4">
-              <ProjectCard />
-            </div>
-            <div className="col m4">
-              <ProjectCard />
+
+            <div className="community-landing-desc">
+              <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu magna justo. Praesent in vestibulum lorem. Nullam vitae ligula ut lacus congue pretium vel porta felis. Suspendisse molestie orci urna, dignissim efficitur velit facilisis sed. </p>
             </div>
           </div>
+
+          <div className="col s12 m4">
+            <div className="card">
+              <div className="card-content">
+                <span className="card-title"><i className="fa fa-users" aria-hidden="true"></i> Projects</span>
+                <p>Find students and projects using the Princeton APIs.</p>
+              </div>
+              <div className="card-action">
+                <Link to="/community/projects">View Projects &rarr;</Link>
+              </div>
+            </div>
+
+            <div className="community-landing-desc">
+              <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu magna justo. Praesent in vestibulum lorem. Nullam vitae ligula ut lacus congue pretium vel porta felis. Suspendisse molestie orci urna, dignissim efficitur velit facilisis sed. </p>
+            </div>
+          </div>
+
+          <div className="col s12 m4">
+            <div className="card">
+              <div className="card-content">
+                <span className="card-title"><i className="fa fa-user" aria-hidden="true"></i> Events</span>
+                <p>View your profile.</p>
+              </div>
+              <div className="card-action">
+                <Link to="/community">View Events &rarr;</Link>
+              </div>
+            </div>
+
+            <div className="community-landing-desc">
+              <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu magna justo. Praesent in vestibulum lorem. Nullam vitae ligula ut lacus congue pretium vel porta felis. Suspendisse molestie orci urna, dignissim efficitur velit facilisis sed. </p>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
