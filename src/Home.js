@@ -40,7 +40,7 @@ export default function Home(props) {
               <p>View your profile.</p>
             </div>
             <div className="card-action">
-              <Link to="/community">View Your Profile &rarr;</Link>
+              <Link to="/profile/123">View Your Profile &rarr;</Link>
             </div>
           </div>
 

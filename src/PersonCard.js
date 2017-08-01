@@ -5,7 +5,14 @@ import HoverCard from './HoverCard';
 
 export default function PersonCard(props) {
   return (
-    <HoverCard href="/profile/123" style={{color: 'black'}}>
+    <HoverCard
+      href="/profile/123"
+      style={{color: 'black'}}
+      cardStyle={{
+        margin: '0.5rem 0 1rem',
+        backgroundColor: 'rgba(214, 214, 214, 0.30)'
+      }}
+    >
       <CardText>
         <div style={{display: 'flex'}}>
           <div>

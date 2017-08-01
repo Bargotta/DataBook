@@ -18,7 +18,7 @@ export default class HoverCard extends Component {
           onMouseOver={this.onMouseOver}
           onMouseOut={this.onMouseOut}
           zDepth={this.state.zDepth}
-          style={{ margin: '0.5rem 0 1rem' }}
+          style={this.props.cardStyle}
         >
           {this.props.children}
         </Card>

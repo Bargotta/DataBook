@@ -57,6 +57,18 @@ export default function Developers(props) {
             <div className="col m3">
               <PersonCard name="Will Hunt" year="'19" projects={3} saved={1}/>
             </div>
+            <div className="col m3">
+              <PersonCard name="Harry Hill" year="'19" projects={3} saved={1}/>
+            </div>
+            <div className="col m3">
+              <PersonCard name="Tim Dunter" year="'19" projects={3} saved={1}/>
+            </div>
+            <div className="col m3">
+              <PersonCard name="Raik Guff" year="'19" projects={3} saved={1}/>
+            </div>
+            <div className="col m3">
+              <PersonCard name="Zoey Shey" year="'19" projects={3} saved={1}/>
+            </div>
 
             <div className="col s12">
               <LoadMore text="Load More Developers..." />

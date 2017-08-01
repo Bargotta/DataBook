@@ -71,6 +71,13 @@ export default function Projects(props) {
           <div className="col m3">
             <ProjectCard />
           </div>
+          <div className="col m3">
+            <ProjectCard />
+          </div>
+          <div className="col m3">
+            <ProjectCard />
+          </div>
+
           <div className="col s12">
             <LoadMore text="Load More Projects..." />
           </div>

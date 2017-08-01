@@ -13,7 +13,13 @@ const ProfilePageHeader = (props) => <h2 style={{ fontSize: '2rem' }}>{props.chi
 
 function SavedCard(props) {
   return (
-    <HoverCard href="/directory/123">
+    <HoverCard
+      href="/directory/123"
+      cardStyle={{
+        margin: '0.5rem 0 1rem',
+        backgroundColor: 'white'
+      }}
+    >
       <CardTitle title={<span>Course Offerings API <SaveWidget /></span>} />
       <CardText>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu magna justo. Praesent in vestibulum lorem</CardText>
     </HoverCard>
