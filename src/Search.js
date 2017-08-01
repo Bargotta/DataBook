@@ -21,7 +21,7 @@ export default class Search extends React.Component {
   render() {
     return (
       <div className="col m12">
-        <div className="col s12 m3">
+        <div className="col s12 m5">
           <form onSubmit={this.handleSubmit}>
             <label>
               <input
@@ -33,7 +33,7 @@ export default class Search extends React.Component {
           </form>
         </div>
 
-        <div className="col s12 m5">
+        <div className="col s12 m7">
           <div className="col s3 input-desc">Filter by:</div>
           <div className="col s9">
             <Select

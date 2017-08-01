@@ -19,8 +19,9 @@ export default function ProjectPage(props) {
       <nav>
         <div className="nav-wrapper container">
           <div className="col s12">
-            <Link to="/directory" className="breadcrumb">Community</Link>
-            <Link className="breadcrumb">View Project</Link>
+            <Link to="/community" className="breadcrumb">Community</Link>
+            <Link to="/community/projects" className="breadcrumb">Projects</Link>
+            <Link className="breadcrumb">ReCal</Link>
           </div>
         </div>
       </nav>

@@ -8,6 +8,7 @@ import HoverCard from './HoverCard';
 import SaveWidget from './SaveWidget';
 import PersonIcon from './PersonIcon';
 import ProjectCard from './ProjectCard';
+import Search from './Search';
 
 const ProfilePageHeader = (props) => <h2 style={{ fontSize: '2rem' }}>{props.children}</h2>;
 
@@ -46,6 +47,9 @@ export default function ProfilePage(props) {
             <div className="section">
               <ProfilePageHeader>Projects</ProfilePageHeader>
               <div className="row">
+                <div className="col s12">
+                  <Search />
+                </div>
                 <div className="col m6 s12">
                   <ProjectCard />
                 </div>

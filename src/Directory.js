@@ -2,8 +2,32 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import $ from 'jquery';
 
-import demoApi from './demoApi';
-const apis = [demoApi, demoApi, demoApi, demoApi, demoApi, demoApi, demoApi];
+const apis = [
+  {
+    title: 'All',
+    description: 'Provides XML and JSON streams of course offerings data.'
+  },
+  {
+    title: 'Athletics',
+    description: 'Provides XML and JSON streams of course offerings data.'
+  },
+  {
+    title: 'Courses',
+    description: 'Provides XML and JSON streams of course offerings data.'
+  },
+  {
+    title: 'Events',
+    description: 'Provides XML and JSON streams of course offerings data.'
+  },
+  {
+    title: 'Map',
+    description: 'Provides XML and JSON streams of course offerings data.'
+  },
+  {
+    title: 'News',
+    description: 'Provides XML and JSON streams of course offerings data.'
+  }
+];
 
 export default class Directory extends Component {
   componentDidMount() {

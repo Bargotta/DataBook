@@ -10,7 +10,7 @@ export default function EventCard(props) {
         href={props.href}
         cardStyle={{
           margin: '0.5rem 0 1rem',
-          backgroundColor: 'rgba(0, 188, 212, 0.5)',
+          backgroundColor: 'rgba(214, 214, 214, 0.30)',
           textAlign: 'center'
         }}      >
         <CardText>
