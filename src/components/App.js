@@ -13,7 +13,7 @@ import CreatePage from './CreatePage';
 import IdeaPage from './IdeaPage';
 import EventPage from './EventPage';
 
-import './App.css';
+import '../App.css';
 import 'materialize-css/bin/materialize.css'
 import 'materialize-css/bin/materialize.js'
 
