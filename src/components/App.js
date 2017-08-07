@@ -7,11 +7,12 @@ import Home from './Home';
 import ProfilePage from './ProfilePage';
 import Directory from './Directory';
 import Community from './Community';
-import Projects from './Projects';
 import CreatePage from './CreatePage';
 import IdeaPage from './IdeaPage';
 import EventPage from './EventPage';
+
 import Developers from '../containers/Developers';
+import Projects from '../containers/Projects';
 
 import '../css/App.css';
 import 'materialize-css/bin/materialize.css'

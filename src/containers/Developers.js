@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import PersonCard from '../components/PersonCard';
-import Search from '../components/Search';
-import LoadMore from '../components/LoadMore';
-import Navbar from '../components/Navbar';
+import PersonCard from '../components/PersonCard'
+import Search from '../components/Search'
+import LoadMore from '../components/LoadMore'
+import Navbar from '../components/Navbar'
 
 import {
   fetchUsers
@@ -50,7 +50,7 @@ class Developers extends Component {
 
             <div className="row">
             {
-              // Todo: add rows 
+              // Todo: add rows
               users.map((user, index) => (
                 <div key={user.id} className="col m3">
                   <PersonCard name={user.first + " " + user.last} year={user.year} projects={"'" + user.projects.length} saved={3}/>
@@ -74,8 +74,9 @@ class Developers extends Component {
 }
 
 function mapStateToProps(state) {
+  const { users } = state
   return {
-    users:  state.allUsers.users
+    users:  users.users
   }
 }
 
