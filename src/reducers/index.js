@@ -1,24 +1,13 @@
 import { combineReducers } from 'redux'
 import {
-  SELECT_USERS,
   REQUEST_USERS,
   RECEIVE_USERS
 } from '../actions'
 
-function selectedUser(state = [], action) {
-  switch (action.type) {
-    case SELECT_USERS:
-      return action.userId
-    default:
-      return state
-  }
-}
-
-function posts(
+function users(
   state = {
     isFetching: false,
-    didInvalidate: false,
-    items: []
+    users: []
   },
   action
 ) {
@@ -30,7 +19,7 @@ function posts(
     case RECEIVE_USERS:
       return Object.assign({}, state, {
         isFetching: false,
-        items: action.posts,
+        items: action.users,
         lastUpdated: action.receivedAt
       })
     default:
@@ -39,7 +28,7 @@ function posts(
 }
 
 const rootReducer = combineReducers({
-  selectedUser
+  users
 })
 
 export default rootReducer

@@ -1,37 +1,27 @@
 import fetch from 'isomorphic-fetch'
 
-export const SELECT_USERS = 'SELECT_USERS'
 export const REQUEST_USERS = 'REQUEST_USERS'
 export const RECEIVE_USERS = 'RECEIVE_USERS'
 
-function fetchPosts(userId) {
+function fetchUsers() {
   return dispatch => {
-    dispatch(requestPosts(userId))
-    return fetch(`api/users/${userId}`)
+    dispatch(requestUsers())
+    return fetch(`api/users`)
     .then(response => response.json())
-    .then(json => dispatch(receivePosts(userId, json)))
+    .then(json => dispatch(receiveUsers(json)))
   }
 }
 
-export function selectuser(userId) {
+function requestUsers() {
   return {
-    type: SELECT_USERS,
-    userId
+    type: REQUEST_USERS
   }
 }
 
-function requestPosts(userId) {
-  return {
-    type: REQUEST_USERS,
-    userId
-  }
-}
-
-function receivePosts(userId, json) {
+function receiveUsers(json) {
   return {
     type: RECEIVE_USERS,
-    userId,
-    posts: json.data.children.map(child => child.data),
+    users: json.data.children.map(child => child.data),
     receivedAt: Date.now()
   }
 }
