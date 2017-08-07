@@ -43,25 +43,26 @@ class Developers extends Component {
         <Navbar links={links} />
 
         <div className="container">
-          <div className="section row">
+          <div className="section">
+            <div className="row">
+                <Search options={options}/>
+            </div>
 
-            <div className="col m12">
-              <Search options={options}/>
-
-                <div className="section row">
-                {
-                  users.map((user, index) => (
-                    <div key={user.id} className="col m3">
-                      <PersonCard name={user.first + " " + user.last} year={user.year} projects={"'" + user.projects.length} saved={3}/>
-                    </div>
-                  ))
-                }
+            <div className="row">
+            {
+              // Todo: add rows 
+              users.map((user, index) => (
+                <div key={user.id} className="col m3">
+                  <PersonCard name={user.first + " " + user.last} year={user.year} projects={"'" + user.projects.length} saved={3}/>
                 </div>
+              ))
+            }
+            </div>
 
+            <div className="row">
               <div className="col s12">
                 <LoadMore text="Load More Developers..." />
               </div>
-
             </div>
 
           </div>
