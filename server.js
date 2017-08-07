@@ -28,6 +28,7 @@ app.get('/api/users', (req, res) => {
 							'projects'	: [],
 							'joined'	: u.joined
 						};
+        // get the projects that user is a member of
 				if (u.projects.length) {
 					u.projects.map(function (project) {
 						userInfo.projects.push(project.name);
@@ -67,8 +68,13 @@ app.get('/api/updateUser', (req, res) => {
 });
 
 /* ---------------------- DELETE: delete items in db ---------------------- */
-/* ... */
+/*
 
+...
+
+*/
+
+/* ---------------------- INITIALIZE DATABASE ---------------------- */
 // initialise sample db (Remove in production)
 app.get('/api/init', (req, res) => {
 	// reset db
@@ -80,28 +86,94 @@ app.get('/api/init', (req, res) => {
 	var user2 = createUser('Bill', 'Johnson', 19);
 	var user3 = createUser('Sam', 'Tran', 18);
 	var user4 = createUser('Sarah', 'Kelly', 21);
+  var user5 = createUser('Rosie', 'Morris', 20);
+  var user6 = createUser('Paul', 'Davis', 20);
+  var user7 = createUser('Kevin', 'Fuller', 18);
+  var user8 = createUser('Lindsey', 'Miller', 20);
+  var user9 = createUser('Erik', 'Clarke', 20);
+  var user10 = createUser('Madison', 'Murphy', 19);
+  var user11 = createUser('Victor', 'Anderson', 19);
+  var user12 = createUser('Monica', 'Watson', 20);
 
-	var members = [user1, user2, user3];
-
+	var proj1Members = [user1, user2, user3];
 	var proj1 = createProject('recal',
-				  'A student-made course selection tool for Princeton students.',
-				  members,
-				  user1);
-	members.map(function (member) {
+                  				  'A student-made course selection tool for Princeton students.',
+                  				  proj1Members,
+                  				  user1);
+	proj1Members.map(function (member) {
 		member.projects.push(proj1);
 		member.save();
 	});
 
-	var members1 = [user2, user3];
-
-	var proj2 = createProject('testcourse',
-				  'A student-made course selection tool for Princeton students.',
-				  members1,
-				  user2);
-	members1.map(function (member) {
+  var proj2Members = [user2, user3, user4, user5];
+	var proj2 = createProject('proj2',
+                  				  'Sample project #2.',
+                  				  proj2Members,
+                  				  user2);
+	proj2Members.map(function (member) {
 		member.projects.push(proj2);
 		member.save();
 	});
+
+  var proj3Members = [user1, user5, user6, user7];
+  var proj3 = createProject('proj3',
+                            'Sample project #3.',
+                            proj3Members,
+                            user2);
+  proj3Members.map(function (member) {
+    member.projects.push(proj3);
+    member.save();
+  });
+
+  var proj4Members = [user7, user8, user9, user10];
+  var proj4 = createProject('proj4',
+                            'Sample project #4.',
+                            proj4Members,
+                            user2);
+  proj4Members.map(function (member) {
+    member.projects.push(proj4);
+    member.save();
+  });
+
+  var proj5Members = [user1, user11];
+  var proj5 = createProject('proj5',
+                            'Sample project #5.',
+                            proj5Members,
+                            user2);
+  proj5Members.map(function (member) {
+    member.projects.push(proj5);
+    member.save();
+  });
+
+  var proj6Members = [user2, user3, user6, user7, user12];
+  var proj6 = createProject('proj6',
+                            'Sample project #6.',
+                            proj6Members,
+                            user2);
+  proj6Members.map(function (member) {
+    member.projects.push(proj6);
+    member.save();
+  });
+
+  var proj7Members = [user12];
+  var proj7 = createProject('proj7',
+                            'Sample project #7.',
+                            proj7Members,
+                            user2);
+  proj7Members.map(function (member) {
+    member.projects.push(proj7);
+    member.save();
+  });
+
+  var proj8Members = [user2, user9, user10, user11];
+  var proj8 = createProject('proj8',
+                            'Sample project #8.',
+                            proj8Members,
+                            user2);
+  proj8Members.map(function (member) {
+    member.projects.push(proj8);
+    member.save();
+  });
 
 	res.send("Sample DB initialised");
 });
