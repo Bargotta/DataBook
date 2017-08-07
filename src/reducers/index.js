@@ -4,7 +4,7 @@ import {
   RECEIVE_USERS
 } from '../actions'
 
-function users(
+function allUsers(
   state = {
     isFetching: false,
     users: []
@@ -19,7 +19,7 @@ function users(
     case RECEIVE_USERS:
       return Object.assign({}, state, {
         isFetching: false,
-        items: action.users,
+        users: action.users,
         lastUpdated: action.receivedAt
       })
     default:
@@ -28,7 +28,7 @@ function users(
 }
 
 const rootReducer = combineReducers({
-  users
+  allUsers
 })
 
 export default rootReducer

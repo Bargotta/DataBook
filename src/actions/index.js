@@ -3,10 +3,10 @@ import fetch from 'isomorphic-fetch'
 export const REQUEST_USERS = 'REQUEST_USERS'
 export const RECEIVE_USERS = 'RECEIVE_USERS'
 
-function fetchUsers() {
+export function fetchUsers() {
   return dispatch => {
     dispatch(requestUsers())
-    return fetch(`api/users`)
+    return fetch(`/api/users`)
     .then(response => response.json())
     .then(json => dispatch(receiveUsers(json)))
   }
@@ -21,7 +21,7 @@ function requestUsers() {
 function receiveUsers(json) {
   return {
     type: RECEIVE_USERS,
-    users: json.data.children.map(child => child.data),
+    users: json,
     receivedAt: Date.now()
   }
 }

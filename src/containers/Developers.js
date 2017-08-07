@@ -1,84 +1,85 @@
-import React from 'react';
-import PersonCard from './PersonCard';
-import Search from './Search';
-import LoadMore from './LoadMore';
-import Navbar from './Navbar';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-export default function Developers(props) {
-  const options = [
-    { value: 'A-Z', label: 'A-Z' },
-    { value: 'Number of Projects', label: 'Number of Projects' },
-    { value: 'Year', label: 'Year' }
-  ];
-  const links = [
-    {
-      id: 1,
-      text: "Community",
-      link: "/community"
-    },
-    {
-      id: 2,
-      text: "Developers",
-      link: "/community/developers"
-    }
-  ];
-  return (
-    <div>
+import PersonCard from '../components/PersonCard';
+import Search from '../components/Search';
+import LoadMore from '../components/LoadMore';
+import Navbar from '../components/Navbar';
 
-      <Navbar links={links} />
+import {
+  fetchUsers
+} from '../actions'
 
-      <div className="container">
-        <div className="section row">
+class Developers extends Component {
 
-          <div className="col m12">
-            <Search options={options}/>
+  componentDidMount() {
+    const { dispatch } = this.props
+    dispatch(fetchUsers())
+  }
 
-            <div className="col m3">
-              <PersonCard name="Aaron Bargotta" year="'19" projects={10} saved={3}/>
-            </div>
-            <div className="col m3">
-              <PersonCard name="Bill Adams" year="'19" projects={5} saved={15}/>
-            </div>
-            <div className="col m3">
-              <PersonCard name="Lucy Swartz" year="'19" projects={3} saved={1}/>
-            </div>
-            <div className="col m3">
-              <PersonCard name="Frank Timmy" year="'19" projects={3} saved={1}/>
-            </div>
-            <div className="col m3">
-              <PersonCard name="Tom Liltz" year="'19" projects={3} saved={1}/>
-            </div>
-            <div className="col m3">
-              <PersonCard name="Henry Dung" year="'19" projects={3} saved={1}/>
-            </div>
-            <div className="col m3">
-              <PersonCard name="Yan Sully" year="'19" projects={3} saved={1}/>
-            </div>
-            <div className="col m3">
-              <PersonCard name="Will Hunt" year="'19" projects={3} saved={1}/>
-            </div>
-            <div className="col m3">
-              <PersonCard name="Harry Hill" year="'19" projects={3} saved={1}/>
-            </div>
-            <div className="col m3">
-              <PersonCard name="Tim Dunter" year="'19" projects={3} saved={1}/>
-            </div>
-            <div className="col m3">
-              <PersonCard name="Raik Guff" year="'19" projects={3} saved={1}/>
-            </div>
-            <div className="col m3">
-              <PersonCard name="Zoey Shey" year="'19" projects={3} saved={1}/>
-            </div>
+  render() {
+    const options = [
+      { value: 'A-Z', label: 'A-Z' },
+      { value: 'Number of Projects', label: 'Number of Projects' },
+      { value: 'Year', label: 'Year' }
+    ];
+    const links = [
+      {
+        id: 1,
+        text: "Community",
+        link: "/community"
+      },
+      {
+        id: 2,
+        text: "Developers",
+        link: "/community/developers"
+      }
+    ];
+    const { users } = this.props
 
-            <div className="col s12">
-              <LoadMore text="Load More Developers..." />
+    return (
+      <div>
+
+        <Navbar links={links} />
+
+        <div className="container">
+          <div className="section row">
+
+            <div className="col m12">
+              <Search options={options}/>
+
+              {
+                users.map((user, index) => (
+                  if (index % 4 === 0) {
+                    <div className="section row">
+                  }
+                  <div key={user.id} className="col m3">
+                    <PersonCard name={user.first + " " + user.last} year={user.year} projects={10} saved={3}/>
+                  </div>
+                  if (index % 4 === 0) {
+                    </div>
+                  }
+                ))
+              }
+
+              <div className="col s12">
+                <LoadMore text="Load More Developers..." />
+              </div>
+
             </div>
 
           </div>
-
         </div>
-      </div>
 
-    </div>
-  );
+      </div>
+    );
+  }
 }
+
+function mapStateToProps(state) {
+  return {
+    users:  state.allUsers.users
+  }
+}
+
+export default connect(mapStateToProps)(Developers)
