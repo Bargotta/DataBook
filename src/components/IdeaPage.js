@@ -53,19 +53,39 @@ export default function IdeaPage(props) {
           <Search options={options}/>
 
           <div className="col m3">
-            <ProjectCard />
+            <ProjectCard
+              name="idea1"
+              desc="a sample project idea"
+              members={[1,2,3]}
+            />
           </div>
           <div className="col m3">
-            <ProjectCard />
+            <ProjectCard
+              name="idea2"
+              desc="a sample project idea"
+              members={[1,2,3]}
+            />
           </div>
           <div className="col m3">
-            <ProjectCard />
+            <ProjectCard
+              name="idea3"
+              desc="a sample project idea"
+              members={[1,2,3]}
+            />
           </div>
           <div className="col m3">
-            <ProjectCard />
+            <ProjectCard
+              name="idea4"
+              desc="a sample project idea"
+              members={[1,2,3]}
+            />
           </div>
           <div className="col m3">
-            <ProjectCard />
+            <ProjectCard
+              name="idea1"
+              desc="a sample project idea"
+              members={[1,2,3]}
+            />
           </div>
           <div className="col s12">
             <LoadMore text="Load More Ideas..." />

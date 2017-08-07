@@ -12,9 +12,15 @@ export default function ProjectCard(props) {
         backgroundColor: 'rgba(214, 214, 214, 0.30)'
       }}
     >
-      <CardTitle title="ReCal" subtitle="A student-made course selection tool for Princeton students." />
+      <CardTitle title={props.name} subtitle={props.desc} />
       <CardText>
-        <strong><PersonIcon size="50" /><PersonIcon size="50" /><PersonIcon size="50" /></strong>
+        <strong>
+          {
+            props.members.map(member => (
+              <PersonIcon size="50" />
+            ))
+          }
+        </strong>
       </CardText>
     </HoverCard>
   );

@@ -51,13 +51,25 @@ export default function ProfilePage(props) {
                   <Search />
                 </div>
                 <div className="col m6 s12">
-                  <ProjectCard />
+                  <ProjectCard
+                    name="recal"
+                    desc="A course selection tool."
+                    members={[1,2]}
+                  />
                 </div>
                 <div className="col m6 s12">
-                  <ProjectCard />
+                  <ProjectCard
+                    name="proj5"
+                    desc="Sample project #5"
+                    members={[1,2,3]}
+                  />
                 </div>
                 <div className="col m6 s12">
-                  <ProjectCard />
+                  <ProjectCard
+                    name="proj8"
+                    desc="Sample project #8"
+                    members={[1]}
+                  />
                 </div>
               </div>
             </div>

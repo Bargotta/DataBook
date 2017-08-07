@@ -22,6 +22,7 @@ class Projects extends Component {
     const options = [
       { value: 'Likes', label: 'Likes' },
       { value: 'Members Needed', label: 'Members Needed' },
+      { value: 'Number of Members', label: 'Number of Members' },
       { value: 'Complete', label: 'Complete' },
       { value: 'In Progress', label: 'In Progress' },
       { value: 'A-Z', label: 'A-Z' },
@@ -54,6 +55,8 @@ class Projects extends Component {
         link: "/community/projects"
       }
     ];
+    const { projects } = this.props
+
     return (
       <div>
         <Navbar links={links} />
@@ -71,9 +74,18 @@ class Projects extends Component {
               </div>
 
               <div className="row">
-                <div className="col m3">
-                  <ProjectCard />
-                </div>
+              {
+                // Todo: add rows
+                  projects.map(project => (
+                  <div key={project.id} className="col m3">
+                    <ProjectCard
+                      name={project.name}
+                      desc={project.desc}
+                      members={project.members}
+                    />
+                  </div>
+                ))
+              }
               </div>
 
               <div className="row">

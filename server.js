@@ -97,7 +97,7 @@ app.get('/api/init', (req, res) => {
 
 	var proj1Members = [user1, user2, user3];
 	var proj1 = createProject('recal',
-                  				  'A student-made course selection tool for Princeton students.',
+                  				  'A course selection tool.',
                   				  proj1Members,
                   				  user1);
 	proj1Members.map(function (member) {
@@ -105,7 +105,7 @@ app.get('/api/init', (req, res) => {
 		member.save();
 	});
 
-  var proj2Members = [user2, user3, user4, user5];
+  var proj2Members = [user2, user3, user5, user6];
 	var proj2 = createProject('proj2',
                   				  'Sample project #2.',
                   				  proj2Members,
@@ -115,7 +115,7 @@ app.get('/api/init', (req, res) => {
 		member.save();
 	});
 
-  var proj3Members = [user1, user5, user6, user7];
+  var proj3Members = [user1, user5];
   var proj3 = createProject('proj3',
                             'Sample project #3.',
                             proj3Members,
@@ -145,7 +145,7 @@ app.get('/api/init', (req, res) => {
     member.save();
   });
 
-  var proj6Members = [user2, user3, user6, user7, user12];
+  var proj6Members = [user2, user3, user7, user12];
   var proj6 = createProject('proj6',
                             'Sample project #6.',
                             proj6Members,
@@ -165,7 +165,7 @@ app.get('/api/init', (req, res) => {
     member.save();
   });
 
-  var proj8Members = [user2, user9, user10, user11];
+  var proj8Members = [user11];
   var proj8 = createProject('proj8',
                             'Sample project #8.',
                             proj8Members,

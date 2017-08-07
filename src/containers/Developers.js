@@ -51,9 +51,14 @@ class Developers extends Component {
             <div className="row">
             {
               // Todo: add rows
-              users.map((user, index) => (
+              users.map(user => (
                 <div key={user.id} className="col m3">
-                  <PersonCard name={user.first + " " + user.last} year={user.year} projects={"'" + user.projects.length} saved={3}/>
+                  <PersonCard
+                    name={user.first + " " + user.last}
+                    year={"'" + user.year}
+                    projects={user.projects.length}
+                    saved={3}
+                  />
                 </div>
               ))
             }
