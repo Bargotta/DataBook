@@ -48,19 +48,15 @@ class Developers extends Component {
             <div className="col m12">
               <Search options={options}/>
 
-              {
-                users.map((user, index) => (
-                  if (index % 4 === 0) {
-                    <div className="section row">
-                  }
-                  <div key={user.id} className="col m3">
-                    <PersonCard name={user.first + " " + user.last} year={user.year} projects={10} saved={3}/>
-                  </div>
-                  if (index % 4 === 0) {
+                <div className="section row">
+                {
+                  users.map((user, index) => (
+                    <div key={user.id} className="col m3">
+                      <PersonCard name={user.first + " " + user.last} year={user.year} projects={10} saved={3}/>
                     </div>
-                  }
-                ))
-              }
+                  ))
+                }
+                </div>
 
               <div className="col s12">
                 <LoadMore text="Load More Developers..." />
