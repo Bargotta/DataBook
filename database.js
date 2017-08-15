@@ -48,11 +48,35 @@ module.exports.createProject = createProject;
 
 /* ---------------------- READ: get items from db ---------------------- */
 // get all users
-var getAllUsers = function(callback) {
+var getAllUsers = function(res) {
     User.find({}, function(err, users) {
         if (err) return console.error(err);
-        callback(users)
+        formatUsersInfo(res, users);
     });
+}
+
+var formatUsersInfo = function(res, users) {
+  users.map(function(user) {
+    User.findOne({_id: user._id}).populate('projects').exec(function (err, u) {
+      userInfo = {
+        'id' 		: u.id,
+        'first'		: u.name.first,
+        'last'		: u.name.last,
+        'year'		: u.year,
+        'projects'	: [],
+        'joined'	: u.joined
+      };
+      // get the projects that user is a member of
+      if (u.projects.length) {
+        u.projects.map(function(project) {
+          userInfo.projects.push(project.name);
+        });
+      }
+      // add user's info
+      allUserInfo.push(userInfo);
+      console.log(allUserInfo);
+    });
+  });
 }
 
 // get all projects

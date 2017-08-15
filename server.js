@@ -26,36 +26,7 @@ app.get('/', (req, res) => {
 /* ---------------------- READ: get items from db ---------------------- */
 // get all users
 app.get('/api/users', (req, res) => {
-	db.getAllUsers(function(users) {
-		var allUserInfo = [];
-		var i = users.length;
-		users.map(function(user) {
-			User.findOne({_id: user._id}).populate('projects').exec(function (err, u) {
-				userInfo = {
-							'id' 		: u.id,
-							'first'		: u.name.first,
-							'last'		: u.name.last,
-							'year'		: u.year,
-							'projects'	: [],
-							'joined'	: u.joined
-						};
-        // get the projects that user is a member of
-				if (u.projects.length) {
-					u.projects.map(function(project) {
-						userInfo.projects.push(project.name);
-					});
-				}
-
-				allUserInfo.push(userInfo);
-
-				// return once all info has been collected
-				--i;
-				if (i <= 0) {
-					res.json(allUserInfo);
-				}
-			});
-		});
-	});
+	db.getAllUsers(res);
 });
 
 // get all projects
