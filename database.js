@@ -56,6 +56,8 @@ var getAllUsers = function(res) {
 }
 
 var formatUsersInfo = function(res, users) {
+  var i = users.length;
+  var allUserInfo = [];
   users.map(function(user) {
     User.findOne({_id: user._id}).populate('projects').exec(function (err, u) {
       userInfo = {
@@ -74,7 +76,12 @@ var formatUsersInfo = function(res, users) {
       }
       // add user's info
       allUserInfo.push(userInfo);
-      console.log(allUserInfo);
+
+      // return once all info has been collected
+      i--;
+      if (i <= 0) {
+        res.json(allUserInfo);
+      }
     });
   });
 }
