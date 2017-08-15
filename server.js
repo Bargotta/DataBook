@@ -82,7 +82,7 @@ app.get('/api/init', (req, res) => {
 	deleteAllProjects();
 
 	// add sample data
-	var user1 = createUser('Aaron', 'Bargotta', 20);
+	var user1 = createUser('Aaron', 'Bargotta', 19);
 	var user2 = createUser('Bill', 'Johnson', 19);
 	var user3 = createUser('Sam', 'Tran', 18);
 	var user4 = createUser('Sarah', 'Kelly', 21);
