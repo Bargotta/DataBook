@@ -18,6 +18,7 @@ var userSchema = new Schema({
 userSchema.virtual('fullName').get(function () {
   return this.name.first + ' ' + this.name.last;
 });
+var User = mongoose.model('User', userSchema);
 
 // create project schema
 var projectSchema = new Schema({
@@ -28,8 +29,6 @@ var projectSchema = new Schema({
 	link	: String,
 	created	: { type: Date, default: Date.now }
 });
-
-var User = mongoose.model('User', userSchema);
 var Project = mongoose.model('Project', projectSchema);
 
 // allows them to be used outside of this module

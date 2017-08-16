@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const db = require('./database');
+const sampleDb = require('./sampleDb');
 const app = express();
 
 var mongoose = require('mongoose');
@@ -23,6 +24,13 @@ app.get('/', (req, res) => {
 * COMMUNITY REST API
 ************************************************************************/
 
+/* ---------------------- CREATE: put items in db ---------------------- */
+/*
+
+...
+
+*/
+
 /* ---------------------- READ: get items from db ---------------------- */
 // get all users
 app.get('/api/users', (req, res) => {
@@ -37,14 +45,11 @@ app.get('/api/projects', (req, res) => {
 });
 
 /* ---------------------- UPDATE: add items to db ---------------------- */
-// update a user's first name (Remove in production)
-app.get('/api/updateUser', (req, res) => {
-	var query = req.query.query;
+// update a user's first name
+app.get('/api/users/updatename', (req, res) => {
+	var first = req.query.first;
 	var update = req.query.update;
-	User.findOneAndUpdate({"name.first": query}, { $set: {"name.first": update}}, {new: true}, function(err, doc){
-	    if (err) console.log("Something wrong when updating data!");
-	    console.log("New user: " + doc);
-	});
+  db.updateUserName(first, update);
 
 	res.send("User updated");
 });
@@ -59,7 +64,7 @@ app.get('/api/updateUser', (req, res) => {
 /* ---------------------- INITIALIZE DATABASE ---------------------- */
 // initialise db with sample data (Remove in production)
 app.get('/api/init', (req, res) => {
-  db.sampleDb();
+  sampleDb.sampleDb();
 
 	res.send("Sample DB initialized");
 });
