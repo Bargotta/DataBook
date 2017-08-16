@@ -25,6 +25,11 @@ app.get('/', (req, res) => {
 ************************************************************************/
 
 /* ---------------------- CREATE: put items in db ---------------------- */
+/**
+* TODO:
+* - create/user
+* - create/project
+*/
 /*
 
 ...
@@ -32,6 +37,11 @@ app.get('/', (req, res) => {
 */
 
 /* ---------------------- READ: get items from db ---------------------- */
+/**
+* TODO:
+* - users/:id
+* - projects/:id
+*/
 // get all users
 app.get('/api/users', (req, res) => {
 	db.getAllUsers(res);
@@ -45,6 +55,13 @@ app.get('/api/projects', (req, res) => {
 });
 
 /* ---------------------- UPDATE: add items to db ---------------------- */
+/**
+* TODO:
+* - projects/:id/update (name, desc, manager, link)
+* - projects/:id/addmember
+* - projects/:id/removemember
+* - remove users/updatename
+*/
 // update a user's first name
 app.get('/api/users/updatename', (req, res) => {
 	var first = req.query.first;
@@ -55,6 +72,10 @@ app.get('/api/users/updatename', (req, res) => {
 });
 
 /* ---------------------- DELETE: delete items in db ---------------------- */
+/**
+* users/:id/delete
+* projects/:id/delete
+*/
 /*
 
 ...
