@@ -6,8 +6,7 @@ const db = require('./database');
 // initialize db with sample data (Not used in production)
 function sampleDb(callback) {
 	// reset db
-	db.deleteAllUsers();
-	db.deleteAllProjects();
+	db.resetDb();
 
 	// add sample users
 	var user1 = db.createUser('Aaron', 'Bargotta', 19);

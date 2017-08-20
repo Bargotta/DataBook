@@ -216,7 +216,7 @@ function updateManager(userId, projectId, callback) {
 }
 
 /* ---------------------- DELETE: delete items in db ---------------------- */
-// delete userId
+// delete userId and remove all userId coupling
 function deleteUser(userId, callback) {
     User.remove({ _id : userId }, function(err) {
         if (err) {
@@ -231,7 +231,7 @@ function deleteUser(userId, callback) {
     });
 }
 
-// delete projectId
+// delete projectId and remove all projectId coupling
 function deleteProject(projectId, callback) {
     Project.remove({ _id : projectId }, function(err) {
         if (err) {
@@ -246,16 +246,13 @@ function deleteProject(projectId, callback) {
     });
 }
 
-// delete all the users
-function deleteAllUsers() {
+// reset database: delete all users and projects
+function resetDb() {
     User.remove({}, function(err) {
         if (err) console.error(err);
         else console.log("All users deleted!");
     });
-}
-
-// delete all the projects
-function deleteAllProjects() {
+    
     Project.remove({}, function(err) {
         if (err) console.error(err);
         else console.log("All projects deleted!");
@@ -281,6 +278,5 @@ module.exports = {
     // delete...
     deleteUser          : deleteUser,
     deleteProject       : deleteProject,
-    deleteAllUsers      : deleteAllUsers,
-    deleteAllProjects   : deleteAllProjects
+    resetDb             : resetDb
 }
