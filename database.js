@@ -44,7 +44,7 @@ function createProject(name, desc, members, manager, link) {
 }
 
 /* ---------------------- READ: get items from db ---------------------- */
-// get all users
+// get info for all users
 function getAllUsers(res) {
     User.find({}, function(err, users) {
         if (err) return console.error(err);
@@ -52,9 +52,25 @@ function getAllUsers(res) {
     });
 }
 
-// get all projects
+// get info for userId
+function getUser(userId, res) {
+    User.find({_id : userId}, function(err, users) {
+        if (err) return console.error(err);
+        formatUsersInfo(res, users);
+    });
+}
+
+// get info for all projects
 function getAllProjects(callback) {
     Project.find({}, function(err, projects) {
+        if (err) return console.error(err);
+        callback(projects)
+    });
+}
+
+// get info for projectId
+function getProject(projectId, callback) {
+    Project.find({_id : projectId}, function(err, projects) {
         if (err) return console.error(err);
         callback(projects)
     });
@@ -94,7 +110,9 @@ module.exports = {
   createUser        : createUser,
   createProject     : createProject,
   getAllUsers       : getAllUsers,
+  getUser           : getUser,
   getAllProjects    : getAllProjects,
+  getProject        : getProject,
   updateUserName    : updateUserName,
   deleteAllUsers    : deleteAllUsers,
   deleteAllProjects : deleteAllProjects
@@ -121,7 +139,7 @@ function formatUsersInfo(res, users) {
       // get the projects that user is a member of
       if (u.projects.length) {
         u.projects.map(function(project) {
-          userInfo.projects.push(project.name);
+          userInfo.projects.push(project._id);
         });
       }
       // add user's info

@@ -42,14 +42,26 @@ app.get('/', (req, res) => {
 * - users/:id
 * - projects/:id
 */
-// get all users
+// get info for all users
 app.get('/api/users', (req, res) => {
 	db.getAllUsers(res);
 });
 
-// get all projects
+// get info for usersId
+app.get('/api/users/:userId', (req, res) => {
+	db.getUser(req.params.userId, res);
+});
+
+// get info for all projects
 app.get('/api/projects', (req, res) => {
 	db.getAllProjects(function(projects) {
+		res.json(projects);
+	});
+});
+
+// get info for all projects
+app.get('/api/projects/:projectId', (req, res) => {
+	db.getProject(req.params.projectId, function(projects) {
 		res.json(projects);
 	});
 });

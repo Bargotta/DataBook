@@ -11,7 +11,7 @@ var userSchema = new Schema({
 		last	: String
 	},
 	projects	: [ {type : Schema.Types.ObjectId, ref : 'Project'} ],
-	year		: Number,
+	year			: Number,
 	joined		: { type: Date, default: Date.now }
 });
 
