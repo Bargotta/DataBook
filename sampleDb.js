@@ -4,7 +4,7 @@
 const db = require('./database');
 
 // initialize db with sample data (Not used in production)
-function sampleDb() {
+function sampleDb(callback) {
 	// reset db
 	db.deleteAllUsers();
 	db.deleteAllProjects();
@@ -104,6 +104,7 @@ function sampleDb() {
 	});
 
 	console.log('sample db initialized!');
+	callback("SUCCESS", "Sample database initialised!");
 }
 
 module.exports = {

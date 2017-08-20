@@ -39,8 +39,13 @@ app.route('/api/users')
    })
    .post((req, res) => {
      var params = req.body;
-     db.createUser(params.firstName, params.lastName, params.year);
-     res.send("user created!");
+     db.createUser(params.firstName, params.lastName, params.year, function(status, message, doc) {
+         res.json({
+             "status"    : status,
+             "message"   : message,
+             "newDoc"    : doc
+         });
+     });
    });
 
 // get info for all projects or create project
@@ -52,11 +57,19 @@ app.route('/api/projects')
    })
    .post((req, res) => {
      var params = req.body;
-     db.createProject(params.name, params.desc, params.members, params.manager, params.link);
-     res.send("project created!");
+     db.createProject(params.name, params.desc, params.members, params.manager, params.link, function(status, message, doc) {
+         res.json({
+             "status"    : status,
+             "message"   : message,
+             "newDoc"    : doc
+         });
+     });
    });
 
  /* ------------ READ/UPDATE/DELETE for specific user or project ------------ */
+ /**
+ * TODO: N/A
+ */
 // end points for getting, updating, and deleting userId
 app.route('/api/users/:userId')
    .get((req, res) => {
@@ -65,12 +78,21 @@ app.route('/api/users/:userId')
        });
    })
    .put((req, res) => {
-     db.updateUser(req.params.userId, req.body);
-     res.send("user updated!");
+       db.updateUser(req.params.userId, req.body, function(status, message, doc) {
+           res.json({
+               "status"    : status,
+               "message"   : message,
+               "newDoc"    : doc
+           });
+       });
    })
    .delete((req, res) => {
-     db.deleteUser(req.params.userId);
-     res.send("user deleted!");
+       db.deleteUser(req.params.userId, function(status, message) {
+           res.json({
+               "status"    : status,
+               "message"   : message
+           });
+       });
    });
 
 // end points for getting, updating, and deleting projectId
@@ -81,21 +103,26 @@ app.route('/api/projects/:projectId')
        });
    })
    .put((req, res) => {
-     db.updateProject(req.params.projectId, req.body);
-     res.send("project updated!");
+       db.updateProject(req.params.projectId, req.body, function(status, message, doc) {
+           res.json({
+               "status"     : status,
+               "message"    : message,
+               "newDoc"     : doc
+           });
+       });
    })
    .delete((req, res) => {
-     db.deleteProject(req.params.projectId);
-     res.send("project deleted!");
+       db.deleteProject(req.params.projectId, function(status, message) {
+           res.json({
+               "status"    : status,
+               "message"   : message
+           });
+       });
    });
 
 /* ------------ UPDATE: update members and manager for projects ------------ */
 /**
-* TODO:
-* - adding/removing members from projects
-* - changing manager for project
-* users/:userId/addproject/:projectId
-* projects/:projectId/addmember/:userId
+* TODO: N/A
 */
 app.put('/api/users/:userId/:op(add|remove|manager)/:projectId', (req, res) => {
     const userId = req.params.userId;
@@ -131,8 +158,12 @@ app.put('/api/users/:userId/:op(add|remove|manager)/:projectId', (req, res) => {
 /* ---------------------- INITIALIZE DATABASE ---------------------- */
 // initialise db with sample data (Remove in production)
 app.get('/api/init', (req, res) => {
-  sampleDb.sampleDb();
-	res.send("Sample DB initialized");
+    sampleDb.sampleDb(function(status, message) {
+        res.json({
+            "status"    : status,
+            "message"   : message
+        });
+    });
 });
 
 // start up server
