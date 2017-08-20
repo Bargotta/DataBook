@@ -46,7 +46,7 @@ function createProject(name, desc, members, manager, link) {
 /* ---------------------- READ: get items from db ---------------------- */
 // get info for all users
 function getAllUsers(callback) {
-    User.find({}).sort().exec(function(err, users) {
+    User.find({}).sort({"name.last" : "ascending"}).exec(function(err, users) {
         if (err) return console.error(err);
         callback(users);
     });
@@ -54,7 +54,7 @@ function getAllUsers(callback) {
 
 // get info for all projects
 function getAllProjects(callback) {
-    Project.find({}, function(err, projects) {
+    Project.find({}).sort({"name" : "ascending"}).exec(function(err, projects) {
         if (err) return console.error(err);
         callback(projects)
     });

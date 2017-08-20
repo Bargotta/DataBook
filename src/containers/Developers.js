@@ -54,7 +54,7 @@ class Developers extends Component {
               users.map(user => (
                 <div key={user.id} className="col m3">
                   <PersonCard
-                    name={user.first + " " + user.last}
+                    name={user.name.first + " " + user.name.last}
                     year={"'" + user.year}
                     projects={user.projects.length}
                     saved={3}
