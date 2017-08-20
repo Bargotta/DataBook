@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 
 /* ------- CREATE: put items in db / READ: get all users and projects ------- */
 /**
-* TODO: test post
+* TODO: N/A
 */
 // get info for all users or create user
 app.route('/api/users')

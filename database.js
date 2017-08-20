@@ -78,15 +78,27 @@ function getProject(projectId, callback) {
 
 /* ---------------------- UPDATE: update items in db ---------------------- */
 // update userId
+/*
+TODO:
+add/remove project from user
+*/
 function updateUser(userId, update) {
-    console.log(update);
-    User.findByIdAndUpdate(userId, update);
+    User.findOneAndUpdate({_id: userId}, {$set: update}, {new: true}, function(err, doc) {
+        if (err) console.log("Something wrong when updating data!");
+        else console.log(doc);
+    });
 }
 
 // update projectId
+/*
+TODO:
+- add/remove user from project
+*/
 function updateProject(projectId, update) {
-    console.log(update);
-    Project.findByIdAndUpdate(projectId, update);
+    Project.findOneAndUpdate({_id: projectId}, {$set: update}, {new: true}, function(err, doc) {
+        if (err) console.log("Something wrong when updating data!");
+        else console.log(doc);
+    });
 }
 
 /* ---------------------- DELETE: delete items in db ---------------------- */
