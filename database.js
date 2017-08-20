@@ -77,11 +77,7 @@ function getProject(projectId, callback) {
 }
 
 /* ---------------------- UPDATE: update items in db ---------------------- */
-// update userId
-/*
-TODO:
-add/remove project from user
-*/
+// update (name.first, name.last, or year) for userId
 function updateUser(userId, update) {
     User.findOneAndUpdate({_id: userId}, {$set: update}, {new: true}, function(err, doc) {
         if (err) console.log("Something wrong when updating data!");
@@ -89,16 +85,80 @@ function updateUser(userId, update) {
     });
 }
 
-// update projectId
-/*
-TODO:
-- add/remove user from project
-*/
+// update (name, desc, or link) for projectId
 function updateProject(projectId, update) {
     Project.findOneAndUpdate({_id: projectId}, {$set: update}, {new: true}, function(err, doc) {
         if (err) console.log("Something wrong when updating data!");
         else console.log(doc);
     });
+}
+
+// add userId as member of projectId if not already a member
+function addMember(userId, projectId, callback) {
+    User.find({_id : userId}).exec(function(err, users) {
+        let user = users[0];
+        if (err) return console.error(err);
+        Project.find({_id : projectId}).exec(function(err, projects) {
+            if (err) return console.error(err);
+            let project = projects[0];
+            const u = user.projects.indexOf(project._id);
+            const p = project.members.indexOf(user._id);
+            // make sure user.projects and project.members are correctly coupled
+            if (u === -1 && p !== -1 || u !== -1 && p === -1) {
+                console.log("error occured adding member...");
+                callback("FAILED",
+                         "error occured adding " + user.fullName + " to " + project.name);
+            }
+            else if (u === -1 && p === -1) {
+                // add project to user
+                user.projects.push(project);
+                user.save();
+                // add user as member of project
+                project.members.push(user);
+                project.save();
+                console.log(user.fullName + " added to " + project.name);
+                callback("SUCCESS", user.fullName + " added to " + project.name);
+            }
+            else {
+                console.log(user.fullName + " already member of " + project.name);
+                callback("SUCCESS", user.fullName + " already member of " + project.name);
+            }
+        })
+    })
+}
+
+// remove userId to projectId
+function removeMember(userId, projectId, callback) {
+    User.find({_id : userId}).exec(function(err, users) {
+        let user = users[0];
+        if (err) return console.error(err);
+        Project.find({_id : projectId}).exec(function(err, projects) {
+            if (err) return console.error(err);
+            let project = projects[0];
+            const u = user.projects.indexOf(project._id);
+            const p = project.members.indexOf(user._id);
+            // make sure user.projects and project.members are correctly coupled
+            if (u === -1 && p !== -1 || u !== -1 && p === -1) {
+                console.log("error occured removing member...");
+                callback("FAILED",
+                         "error occured removing " + user.fullName + " from " + project.name);
+            }
+            if (u > -1 && p > -1) {
+                // remove project from user projects
+                user.projects.splice(u, 1);
+                user.save();
+                // remove user as member of project
+                project.members.splice(p, 1);
+                project.save();
+                console.log(user.fullName + " removed from " + project.name);
+                callback("SUCCESS", user.fullName + " removed from " + project.name);
+            }
+            else {
+                console.log(user.fullName + " wasn't member of " + project.name);
+                callback("SUCCESS", user.fullName + " wasn't member of " + project.name);
+            }
+        })
+    })
 }
 
 /* ---------------------- DELETE: delete items in db ---------------------- */
@@ -137,19 +197,21 @@ function deleteAllProjects() {
 // Exports
 module.exports = {
     // create...
-    createUser        : createUser,
-    createProject     : createProject,
+    createUser          : createUser,
+    createProject       : createProject,
     /// read...
-    getAllUsers       : getAllUsers,
-    getAllProjects    : getAllProjects,
-    getUser           : getUser,
-    getProject        : getProject,
+    getAllUsers         : getAllUsers,
+    getAllProjects      : getAllProjects,
+    getUser             : getUser,
+    getProject          : getProject,
     // update...
-    updateUser        : updateUser,
-    updateProject     : updateProject,
+    updateUser          : updateUser,
+    updateProject       : updateProject,
+    addMember           : addMember,
+    removeMember        : removeMember,
     // delete...
-    deleteUser        : deleteUser,
-    deleteProject     : deleteProject,
-    deleteAllUsers    : deleteAllUsers,
-    deleteAllProjects : deleteAllProjects
+    deleteUser          : deleteUser,
+    deleteProject       : deleteProject,
+    deleteAllUsers      : deleteAllUsers,
+    deleteAllProjects   : deleteAllProjects
 }

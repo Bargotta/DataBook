@@ -57,13 +57,6 @@ app.route('/api/projects')
    });
 
  /* ------------ READ/UPDATE/DELETE for specific user or project ------------ */
- /**
- * TODO:
- * adding/removing members from projects
- * users/:userId/addproject/:projectId
- * projects/:projectId/addmember/:userId
- */
-
 // end points for getting, updating, and deleting userId
 app.route('/api/users/:userId')
    .get((req, res) => {
@@ -95,6 +88,45 @@ app.route('/api/projects/:projectId')
      db.deleteProject(req.params.projectId);
      res.send("project deleted!");
    });
+
+/* ------------ UPDATE: update members and manager for projects ------------ */
+/**
+* TODO:
+* - adding/removing members from projects
+* - changing manager for project
+* users/:userId/addproject/:projectId
+* projects/:projectId/addmember/:userId
+*/
+app.put('/api/users/:userId/:op(add|remove|manager)/:projectId', (req, res) => {
+    const userId = req.params.userId;
+    const op = req.params.op;
+    const projectId = req.params.projectId;
+
+    if (op === "add") {
+        var add = db.addMember(userId, projectId, function(status, message) {
+            res.json({
+                "status"    : status,
+                "message"   : message
+            });
+        });
+    }
+    else if (op === "remove") {
+        db.removeMember(userId, projectId, function(status, message) {
+            res.json({
+                "status"    : status,
+                "message"   : message
+            });
+        });
+    }
+    else if (op === "manager") {
+        db.updateManager(userId, projectId, function(status, message) {
+            res.json({
+                "status"    : status,
+                "message"   : message
+            });
+        });
+    }
+});
 
 /* ---------------------- INITIALIZE DATABASE ---------------------- */
 // initialise db with sample data (Remove in production)
