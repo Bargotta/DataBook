@@ -1,10 +1,11 @@
 const path = require('path');
 const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const db = require('./database');
 const sampleDb = require('./sampleDb');
 const app = express();
 
-var mongoose = require('mongoose');
 // Connection URL
 const url = "mongodb://localhost:27017/community"
 // Use connect method to connect to the server
@@ -15,6 +16,7 @@ mongoose.connect(url, { useMongoClient: true }, function(err, db) {
 });
 
 app.use(express.static('./build'));
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './build', 'index.html'));
@@ -24,81 +26,80 @@ app.get('/', (req, res) => {
 * COMMUNITY REST API
 ************************************************************************/
 
-/* ---------------------- CREATE: put items in db ---------------------- */
+/* ------- CREATE: put items in db / READ: get all users and projects ------- */
 /**
-* TODO:
-* - create/user
-* - create/project
+* TODO: test post
 */
-/*
+// get info for all users or create user
+app.route('/api/users')
+   .get((req, res) => {
+  	  db.getAllUsers(function(users) {
+          res.json(users);
+      });
+   })
+   .post((req, res) => {
+     var params = req.body;
+     db.createUser(params.firstName, params.lastName, params.year);
+     res.send("user created!");
+   });
 
-...
+// get info for all projects or create project
+app.route('/api/projects')
+   .get((req, res) => {
+     db.getAllProjects(function(projects) {
+        res.json(projects);
+     });
+   })
+   .post((req, res) => {
+     var params = req.body;
+     db.createProject(params.name, params.desc, params.members, params.manager, params.link);
+     res.send("project created!");
+   });
 
-*/
+ /* ------------ READ/UPDATE/DELETE for specific user or project ------------ */
+ /**
+ * TODO:
+ * adding/removing members from projects
+ * users/:userId/addproject/:projectId
+ * projects/:projectId/addmember/:userId
+ */
 
-/* ---------------------- READ: get items from db ---------------------- */
-/**
-* TODO:
-* - users/:id
-* - projects/:id
-*/
-// get info for all users
-app.get('/api/users', (req, res) => {
-	db.getAllUsers(res);
-});
+// end points for getting, updating, and deleting userId
+app.route('/api/users/:userId')
+   .get((req, res) => {
+	   db.getUser(req.params.userId, function(user) {
+           res.json(user);
+       });
+   })
+   .put((req, res) => {
+     db.updateUser(req.params.userId, req.body);
+     res.send("user updated!");
+   })
+   .delete((req, res) => {
+     db.deleteUser(req.params.userId);
+     res.send("user deleted!");
+   });
 
-// get info for usersId
-app.get('/api/users/:userId', (req, res) => {
-	db.getUser(req.params.userId, res);
-});
-
-// get info for all projects
-app.get('/api/projects', (req, res) => {
-	db.getAllProjects(function(projects) {
-		res.json(projects);
-	});
-});
-
-// get info for all projects
-app.get('/api/projects/:projectId', (req, res) => {
-	db.getProject(req.params.projectId, function(projects) {
-		res.json(projects);
-	});
-});
-
-/* ---------------------- UPDATE: add items to db ---------------------- */
-/**
-* TODO:
-* - projects/:id/update (name, desc, manager, link)
-* - projects/:id/addmember
-* - projects/:id/removemember
-* - remove users/updatename
-*/
-// update a user's first name
-app.get('/api/users/updatename', (req, res) => {
-	var first = req.query.first;
-	var update = req.query.update;
-  db.updateUserName(first, update);
-
-	res.send("User updated");
-});
-
-/* ---------------------- DELETE: delete items in db ---------------------- */
-/**
-* users/:id/delete
-* projects/:id/delete
-*/
-/*
-
-...
-
-*/
+// end points for getting, updating, and deleting projectId
+app.route('/api/projects/:projectId')
+   .get((req, res) => {
+       db.getProject(req.params.projectId, function(project) {
+           res.json(project);
+       });
+   })
+   .put((req, res) => {
+     db.updateProject(req.params.projectId, req.body);
+     res.send("project updated!");
+   })
+   .delete((req, res) => {
+     db.deleteProject(req.params.projectId);
+     res.send("project deleted!");
+   });
 
 /* ---------------------- INITIALIZE DATABASE ---------------------- */
 // initialise db with sample data (Remove in production)
 app.get('/api/init', (req, res) => {
   sampleDb.sampleDb();
-
 	res.send("Sample DB initialized");
 });
 

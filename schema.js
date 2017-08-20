@@ -11,12 +11,12 @@ var userSchema = new Schema({
 		last	: String
 	},
 	projects	: [ {type : Schema.Types.ObjectId, ref : 'Project'} ],
-	year			: Number,
+	year		: Number,
 	joined		: { type: Date, default: Date.now }
 });
 
 userSchema.virtual('fullName').get(function () {
-  return this.name.first + ' ' + this.name.last;
+	return this.name.first + ' ' + this.name.last;
 });
 var User = mongoose.model('User', userSchema);
 
@@ -33,6 +33,6 @@ var Project = mongoose.model('Project', projectSchema);
 
 // allows them to be used outside of this module
 module.exports = {
-  User    : User,
-  Project : Project
+	User    : User,
+	Project : Project
 };
