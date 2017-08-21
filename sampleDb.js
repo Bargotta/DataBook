@@ -43,9 +43,8 @@ function sampleDb(callback) {
 	// create projects once all users have been created @setTimeout: lazy
 	setTimeout(function() {
 		p.map(project => {
-			// manager = members[0]
-			const members = addMembers(users);
-			project.members = members;
+			// manager = addMembers(users)[0]
+			project.members = addMembers(users);
 			db.createProject(project);
 		});
 	}, 1000);
@@ -55,7 +54,7 @@ function sampleDb(callback) {
 }
 
 /**
-* given list of users, return a list containing 1<x<5 random userIds
+* given list of users, return another list containing 1<x<5 random userIds
 */
 function addMembers(users) {
 	let numberOfMembers = Math.floor((Math.random() * 5) + 1);

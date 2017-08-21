@@ -7,7 +7,7 @@ User = models.User;
 Project = models.Project;
 
 /* ---------------------- CREATE: add items to db ---------------------- */
-// create a user given user object
+// create a user
 function createUser(user, callback) {
     let newUser = new User({
         name 	: {
@@ -35,7 +35,6 @@ function createUser(user, callback) {
 /**
 * Create a project given project object and add project to each member
 * project.members: list of strings containing userIds
-* project.manager: string containing userId
 */
 function createProject(project, callback) {
     // get members and manager (manager = members[0]) as User objects
@@ -47,6 +46,12 @@ function createProject(project, callback) {
         remaining--;
         // once all members are returned, create project
         getUser(userId, function(user, remaining, members, cb) {
+            if (! user) {
+                console.log("No user found for id " + userId);
+                if (remaining)
+                    return;
+            }
+
             members.push(user);
             if (! remaining) {
                 let newProject = new Project({
@@ -61,7 +66,7 @@ function createProject(project, callback) {
                 newProject.save(function(err) {
                     if (err) {
                         if (cb)
-                        cb("FAILED", "error creating project...", null);
+                            cb("FAILED", "error creating project...", null);
                         return console.error(err);
                     }
                 });
@@ -74,7 +79,7 @@ function createProject(project, callback) {
                     console.log(member.fullName + " added as member of " + newProject.name);
                 });
                 if (cb)
-                cb("SUCCESS", newProject.name + " added to db...", newProject);
+                    cb("SUCCESS", newProject.name + " added to db...", newProject);
             }
         }, { remaining : remaining, members : members, cb : callback });
     });
