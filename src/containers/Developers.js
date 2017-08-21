@@ -50,7 +50,6 @@ class Developers extends Component {
 
             <div className="row">
             {
-                console.log()
               // Todo: add rows
               users.map(user => (
                 <div key={user._id} className="col m3">
