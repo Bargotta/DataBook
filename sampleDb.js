@@ -3,107 +3,71 @@
 ************************************************************************/
 const db = require('./database');
 
+// @global: used to randomly assign a manager for each sample project
+let manager;
+
 // initialise db with sample data (Not used in production)
 function sampleDb(callback) {
 	// reset db
 	db.resetDb();
 
-	// add sample users
-	var user1 = db.createUser('Aaron', 'Bargotta', 19);
-	var user2 = db.createUser('Bill', 'Johnson', 19);
-	var user3 = db.createUser('Sam', 'Tran', 18);
-	var user4 = db.createUser('Sarah', 'Kelly', 21);
-	var user5 = db.createUser('Rosie', 'Morris', 20);
-	var user6 = db.createUser('Paul', 'Davis', 20);
-	var user7 = db.createUser('Kevin', 'Fuller', 18);
-	var user8 = db.createUser('Lindsey', 'Miller', 20);
-	var user9 = db.createUser('Erik', 'Clarke', 20);
-	var user10 = db.createUser('Madison', 'Murphy', 19);
-	var user11 = db.createUser('Victor', 'Anderson', 19);
-	var user12 = db.createUser('Monica', 'Watson', 20);
-
-	var proj1Members = [user1, user2, user3];
-	var proj1 = db.createProject('recal',
-	'A course selection tool.',
-	proj1Members,
-	user1);
-	proj1Members.map(function (member) {
-		member.projects.push(proj1);
-		member.save();
+	// sample users
+	const users = [
+		{ 'first' : 'Aaron',	'last' : 'Bargotta', 	'year' : 19 },
+		{ 'first' : 'Bill',		'last' : 'Johnson', 	'year' : 19 },
+		{ 'first' : 'Sam',		'last' : 'Tran', 		'year' : 18 },
+		{ 'first' : 'Sarah',	'last' : 'Kelly', 		'year' : 21 },
+		{ 'first' : 'Rosie',	'last' : 'Morris', 		'year' : 20 },
+		{ 'first' : 'Paul',		'last' : 'Davis', 		'year' : 20 },
+		{ 'first' : 'Kevin',	'last' : 'Fuller', 		'year' : 18 },
+		{ 'first' : 'Lindsey',	'last' : 'Miller', 		'year' : 20 },
+		{ 'first' : 'Erik',		'last' : 'Clarke', 		'year' : 20 },
+		{ 'first' : 'Madison',	'last' : 'Murphy', 		'year' : 19 },
+		{ 'first' : 'Victor',	'last' : 'Anderson', 	'year' : 19 },
+		{ 'first' : 'Monica',	'last' : 'Watson', 		'year' : 20 }
+	];
+	const u = users.map(user => {
+		db.createUser(user);
 	});
+	console.log(u);
 
-	var proj2Members = [user2, user3, user5, user6];
-	var proj2 = db.createProject('proj2',
-	'Sample project #2.',
-	proj2Members,
-	user2);
-	proj2Members.map(function (member) {
-		member.projects.push(proj2);
-		member.save();
-	});
+	// sample projects
+	const projects = [
+		{ 'name' : 'Proj 1', 'desc' : 'Sample project #1', 'members' : members(u), 'manager' : manager },
+		{ 'name' : 'Proj 2', 'desc' : 'Sample project #2', 'members' : members(u), 'manager' : manager },
+		{ 'name' : 'Proj 3', 'desc' : 'Sample project #3', 'members' : members(u), 'manager' : manager },
+		{ 'name' : 'Proj 4', 'desc' : 'Sample project #4', 'members' : members(u), 'manager' : manager },
+		{ 'name' : 'Proj 5', 'desc' : 'Sample project #5', 'members' : members(u), 'manager' : manager },
+		{ 'name' : 'Proj 6', 'desc' : 'Sample project #6', 'members' : members(u), 'manager' : manager },
+		{ 'name' : 'Proj 7', 'desc' : 'Sample project #7', 'members' : members(u), 'manager' : manager },
+		{ 'name' : 'Proj 8', 'desc' : 'Sample project #8', 'members' : members(u), 'manager' : manager }
+	];
 
-	var proj3Members = [user1, user5];
-	var proj3 = db.createProject('proj3',
-	'Sample project #3.',
-	proj3Members,
-	user5);
-	proj3Members.map(function (member) {
-		member.projects.push(proj3);
-		member.save();
-	});
-
-	var proj4Members = [user7, user8, user9, user10];
-	var proj4 = db.createProject('proj4',
-	'Sample project #4.',
-	proj4Members,
-	user8);
-	proj4Members.map(function (member) {
-		member.projects.push(proj4);
-		member.save();
-	});
-
-	var proj5Members = [user1, user11];
-	var proj5 = db.createProject('proj5',
-	'Sample project #5.',
-	proj5Members,
-	user1);
-	proj5Members.map(function (member) {
-		member.projects.push(proj5);
-		member.save();
-	});
-
-	var proj6Members = [user2, user3, user7, user12];
-	var proj6 = db.createProject('proj6',
-	'Sample project #6.',
-	proj6Members,
-	user2);
-	proj6Members.map(function (member) {
-		member.projects.push(proj6);
-		member.save();
-	});
-
-	var proj7Members = [user12];
-	var proj7 = db.createProject('proj7',
-	'Sample project #7.',
-	proj7Members,
-	user12);
-	proj7Members.map(function (member) {
-		member.projects.push(proj7);
-		member.save();
-	});
-
-	var proj8Members = [user11];
-	var proj8 = db.createProject('proj8',
-	'Sample project #8.',
-	proj8Members,
-	user11);
-	proj8Members.map(function (member) {
-		member.projects.push(proj8);
-		member.save();
-	});
+	projects.map(project => {
+		db.createProject(project);
+	})
 
 	console.log('sample db initialized!');
 	callback("SUCCESS", "Sample database initialised!");
+}
+
+/**
+* given list of users, return a list containing 0<x<5 random userIds.
+* Set manager to be the first element in the returned list.
+*/
+function members(users) {
+	const numberOfMembers = Math.floor((Math.random() * 5) + 1);
+	let randIndex = Math.floor((Math.random() * numberOfMembers) + 1);
+	let members = [];
+	for (let i = 0; i < numberOfMembers; i++) {
+		if (members.indexOf(users[i]._id) === -1) {
+			members.push(users[i]._id);
+		}
+		else {
+			i--;
+		}
+	}
+	return members;
 }
 
 module.exports = {

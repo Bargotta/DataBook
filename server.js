@@ -37,8 +37,7 @@ app.route('/api/users')
     })
     // CREATE...
     .post((req, res) => {
-        var params = req.body;
-        db.createUser(params.firstName, params.lastName, params.year, function(status, message, doc) {
+        db.createUser(req.body, function(status, message, doc) {
             res.json({
                 "status"    : status,
                 "message"   : message,
@@ -57,8 +56,7 @@ app.route('/api/projects')
     })
     // CREATE...
     .post((req, res) => {
-        var params = req.body;
-        db.createProject(params.name, params.desc, params.members, params.manager, params.link, function(status, message, doc) {
+        db.createProject(req.body, function(status, message, doc) {
             res.json({
                 "status"    : status,
                 "message"   : message,

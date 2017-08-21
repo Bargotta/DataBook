@@ -1,20 +1,20 @@
 /************************************************************************
 * DATABASE MODIFYING FUNCTIONS
 ************************************************************************/
-var models = require('./schema');
+let models = require('./schema');
 
 User = models.User;
 Project = models.Project;
 
 /* ---------------------- CREATE: add items to db ---------------------- */
-// create a user
-function createUser(firstName, lastName, year, callback) {
-    var newUser = new User({
+// create a user given user object
+function createUser(user, callback) {
+    let newUser = new User({
         name 	: {
-            first  : firstName,
-            last   : lastName
+            first  : user.first,
+            last   : user.last
         },
-        year	: year
+        year	: user.year
     });
 
     // call the built-in save method to save to the database
@@ -26,33 +26,53 @@ function createUser(firstName, lastName, year, callback) {
         }
     });
     console.log(newUser.fullName + " added to db...");
+
     if (callback)
         callback("SUCCESS", newUser.fullName + " added to db...", newUser);
     return newUser;
 }
 
-// create a project
-function createProject(name, desc, members, manager, link, callback) {
-    var newProject = new Project({
-        name	: name,
-        desc	: desc,
-        members	: members,
-        manager	: manager,
-        link	: link
+/**
+* Create a project given project object
+* project.members: list of strings containing userIds
+* project.manager: string containing userId
+*/
+function createProject(project, callback) {
+    // get members and manager as User objects
+    let manager;
+    getUser(project.manager, function(user) {
+        manager = user;
     });
+    let members = [];
+    let remaining = project.members.length;
+    project.members.map(userId => {
+        remaining--;
+        // once all members are returned, create project
+        getUser(userId, function(user, remaining, members, manager, cb) {
+            members.push(user);
+            if (! remaining) {
+                let newProject = new Project({
+                    name	: project.name,
+                    desc	: project.desc,
+                    members	: members,
+                    manager	: manager,
+                    link	: project.link
+                });
 
-    // call the built-in save method to save to the database
-    newProject.save(function(err) {
-        if (err) {
-            if (callback)
-                callback("FAILED", "error creating project...", null);
-            return console.error(err);
-        }
+                // call the built-in save method to save to the database
+                newProject.save(function(err) {
+                    if (err) {
+                        if (cb)
+                            cb("FAILED", "error creating project...", null);
+                        return console.error(err);
+                    }
+                });
+                console.log(newProject.name + " added to db...");
+                if (cb)
+                    cb("SUCCESS", newProject.name + " added to db...", newProject);
+            }
+        }, { remaining : remaining, members : members, manager : manager, cb : callback });
     });
-    console.log(newProject.name + " added to db...");
-    if (callback)
-        callback("SUCCESS", newProject.name + " added to db...", newProject);
-    return newProject;
 }
 
 /* ---------------------- READ: get items from db ---------------------- */
@@ -74,12 +94,18 @@ function getAllProjects(callback) {
     });
 }
 
-// get info for userId
-function getUser(userId, callback) {
+/**
+* if remaining!==null, create project with members and manager through callback
+* else return user info for userId as json
+*/
+function getUser(userId, callback, { remaining=null, members=null, manager=null, cb=null }) {
     User.find({_id : userId}, function(err, user) {
         if (err) return console.error(err);
         if (callback)
-            callback(user);
+            if (remaining !== null)
+                callback(user, remaining, members, manager, cb);
+            else
+                callback(user);
     });
 }
 
