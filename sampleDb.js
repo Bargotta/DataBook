@@ -43,9 +43,9 @@ function sampleDb(callback) {
 	// create projects once all users have been created @setTimeout: lazy
 	setTimeout(function() {
 		p.map(project => {
+			// manager = members[0]
 			const members = addMembers(users);
 			project.members = members;
-			project.manager = members[0];
 			db.createProject(project);
 		});
 	}, 1000);

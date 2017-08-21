@@ -38,51 +38,46 @@ function createUser(user, callback) {
 * project.manager: string containing userId
 */
 function createProject(project, callback) {
-    // get members and manager as User objects
-    let manager;
+    // get members and manager (manager = members[0]) as User objects
     let members = [];
-    // get manager
-    getUser(project.manager, function(user, remaining, members, manager, cb) {
-        manager = user;
-        console.log(manager.fullName + " is manager");
-        // get members
-        remaining = project.members.length;
-        project.members.map(userId => {
-            remaining--;
-            // once all members are returned, create project
-            getUser(userId, function(user, remaining, members, manager, cb) {
-                members.push(user);
-                if (! remaining) {
-                    let newProject = new Project({
-                        name	: project.name,
-                        desc	: project.desc,
-                        members	: members,
-                        manager	: manager,
-                        link	: project.link
-                    });
 
-                    // call the built-in save method to save to the database
-                    newProject.save(function(err) {
-                        if (err) {
-                            if (cb)
-                            cb("FAILED", "error creating project...", null);
-                            return console.error(err);
-                        }
-                    });
-                    console.log(newProject.name + " added to db...");
+    // get members
+    remaining = project.members.length;
+    project.members.map(userId => {
+        remaining--;
+        // once all members are returned, create project
+        getUser(userId, function(user, remaining, members, cb) {
+            members.push(user);
+            if (! remaining) {
+                let newProject = new Project({
+                    name	: project.name,
+                    desc	: project.desc,
+                    members	: members,
+                    manager	: members[0],
+                    link	: project.link
+                });
 
-                    // add project to each member
-                    members.map(function (member) {
-                        member.projects.push(newProject);
-                        member.save();
-                        console.log(member.fullName + " added as member of " + newProject.name);
-                    });
-                    if (cb)
-                    cb("SUCCESS", newProject.name + " added to db...", newProject);
-                }
-            }, { remaining : remaining, members : members, manager : manager, cb : callback });
-        });
-    }, { remaining : 0, members : members, manager : manager});
+                // call the built-in save method to save to the database
+                newProject.save(function(err) {
+                    if (err) {
+                        if (cb)
+                        cb("FAILED", "error creating project...", null);
+                        return console.error(err);
+                    }
+                });
+                console.log(newProject.name + " added to db...");
+
+                // add project to each member
+                members.map(function (member) {
+                    member.projects.push(newProject);
+                    member.save();
+                    console.log(member.fullName + " added as member of " + newProject.name);
+                });
+                if (cb)
+                cb("SUCCESS", newProject.name + " added to db...", newProject);
+            }
+        }, { remaining : remaining, members : members, cb : callback });
+    });
 }
 
 /* ---------------------- READ: get items from db ---------------------- */
@@ -105,15 +100,15 @@ function getAllProjects(callback) {
 }
 
 /**
-* if remaining!==null, create project with members and manager through callback
+* if remaining!==undefined, create project with members through callback
 * else return user info for userId as json
 */
-function getUser(userId, callback, { remaining=null, members=null, manager=null, cb=null }) {
+function getUser(userId, callback, { remaining, members, cb }) {
     User.findOne({_id : userId}, function(err, user) {
         if (err) return console.error(err);
         if (callback)
-            if (remaining !== null)
-                callback(user, remaining, members, manager, cb);
+            if (remaining !== undefined)
+                callback(user, remaining, members, cb);
             else
                 callback(user);
     });
