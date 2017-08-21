@@ -1,5 +1,5 @@
 /************************************************************************
-* DB HELPER FUNCTIONS
+* DATABASE MODIFYING FUNCTIONS
 ************************************************************************/
 var models = require('./schema');
 
@@ -125,14 +125,42 @@ function updateProject(projectId, update, callback) {
     });
 }
 
+// update manager of projectId to userId
+function updateManager(userId, projectId, callback) {
+    User.findOne({_id : userId}).exec(function(err, user) {
+        if (err) return console.error(err);
+        if (! user) {
+            if (callback) callback("FAILED", "No user found with id " + userId);
+            return;
+        }
+        Project.findOne({_id : projectId}).exec(function(err, project) {
+            if (err) return console.error(err);
+            if (! project) {
+                if (callback) callback("FAILED", "No project found with id " + projectId);
+                return;
+            }
+            project.manager = user;
+            project.save();
+            console.log("New manager of " + project.name + ": " + user.fullName);
+            callback("SUCCESS", "New manager of " + project.name + ": " + user.fullName);
+        });
+    });
+}
+
 // add userId as member of projectId if not already a member
 function addMember(userId, projectId, callback) {
-    User.find({_id : userId}).exec(function(err, users) {
-        let user = users[0];
+    User.findOne({_id : userId}).exec(function(err, user) {
         if (err) return console.error(err);
-        Project.find({_id : projectId}).exec(function(err, projects) {
+        if (! user) {
+            if (callback) callback("FAILED", "No user found with id " + userId);
+            return;
+        }
+        Project.findOne({_id : projectId}).exec(function(err, project) {
             if (err) return console.error(err);
-            let project = projects[0];
+            if (! project) {
+                if (callback) callback("FAILED", "No project found with id " + projectId);
+                return;
+            }
             const u = user.projects.indexOf(project._id);
             const p = project.members.indexOf(user._id);
             // make sure user.projects and project.members are correctly coupled
@@ -162,14 +190,37 @@ function addMember(userId, projectId, callback) {
     });
 }
 
-// remove userId to projectId
-function removeMember(userId, projectId, callback) {
-    User.find({_id : userId}).exec(function(err, users) {
-        let user = users[0];
+/**
+* Remove userId as a member of projectId:
+* if userId is manager of projectId, remove them as manager and make another
+* member manager if possible
+* if delUser=true, then only remove user from projects and delete user once
+* user has been removed from all projects, indicated by remaining (same for
+* delProj=true)
+*/
+function removeMember(userId, projectId, callback, {delUser=false, delProj=false, remaining=-1}) {
+    User.findOne({_id : userId}).exec(function(err, user) {
         if (err) return console.error(err);
-        Project.find({_id : projectId}).exec(function(err, projects) {
+        if (! user) {
+            if (callback) callback("FAILED", "No user found with id " + userId);
+            return;
+        }
+        // if user has been removed from all projects, delete user
+        if (! remaining && delUser) {
+            user.remove();
+            console.log(user.fullName + " deleted!");
+        }
+        Project.findOne({_id : projectId}).exec(function(err, project) {
             if (err) return console.error(err);
-            let project = projects[0];
+            if (! project) {
+                if (callback) callback("FAILED", "No project found with id " + projectId);
+                return;
+            }
+            // if all members have been removed from project, delete project
+            if (! remaining && delProj) {
+                project.remove();
+                console.log(project.name + " deleted!");
+            }
             const u = user.projects.indexOf(project._id);
             const p = project.members.indexOf(user._id);
             // make sure user.projects and project.members are correctly coupled
@@ -179,14 +230,24 @@ function removeMember(userId, projectId, callback) {
                     callback("FAILED",
                          "error occured removing " + user.fullName + " from " + project.name);
             }
-            if (u > -1 && p > -1) {
-                // remove project from user projects
-                user.projects.splice(u, 1);
-                user.save();
-                // remove user as member of project
-                project.members.splice(p, 1);
-                project.save();
-                console.log(user.fullName + " removed from " + project.name);
+            else if (u > -1 && p > -1) {
+                // remove project from user projects unless user is being deleted
+                if (! delUser) {
+                    user.projects.splice(u, 1);
+                    user.save();
+                    console.log(user.fullName + " removed from " + project.name);
+                }
+                // remove user as member (and manager) of project unless project is being deleted
+                if (! delProj) {
+                    project.members.splice(p, 1);
+                    console.log(project.name + " removed from " + user.fullName);
+                    // update manager if necessary
+                    if (""+user._id === ""+project.manager) {
+                        project.manager = project.members[0];
+                        console.log(user.fullName + " removed as manager from " + project.name);
+                    }
+                    project.save();
+                }
                 if (callback)
                     callback("SUCCESS", user.fullName + " removed from " + project.name);
             }
@@ -199,50 +260,54 @@ function removeMember(userId, projectId, callback) {
     });
 }
 
-// update manager of projectId to userId
-function updateManager(userId, projectId, callback) {
-    User.find({_id : userId}).exec(function(err, users) {
-        let user = users[0];
-        if (err) return console.error(err);
-        Project.find({_id : projectId}).exec(function(err, projects) {
-            if (err) return console.error(err);
-            let project = projects[0];
-            project.manager = user;
-            project.save();
-            console.log("New manager of " + project.name + ": " + user.fullName);
-            callback("SUCCESS", "New manager of " + project.name + ": " + user.fullName);
-        });
-    });
-}
-
 /* ---------------------- DELETE: delete items in db ---------------------- */
-// delete userId and remove all userId coupling
+// delete userId and remove all projects userId is a member of
 function deleteUser(userId, callback) {
-    User.remove({ _id : userId }, function(err) {
-        if (err) {
-            console.error(err);
-            if (callback)
-                callback("FAILED", "error deleting user");
+    // remove user from their projects before removing user from db
+    User.findOne({ _id : userId }, function(err, user) {
+        if (! user) {
+            if (callback) callback("FAILED", "No user found with id " + userId);
+            return;
         }
+        let remaining = user.projects.length;
+        if (! remaining) {
+            user.remove();
+            console.log(user.fullName + " deleted!");
+        }
+        // remove user from all projects before deleting
         else {
-            if (callback)
-                callback("SUCCESS", userId + " deleted!");
+            user.projects.map(projectId => {
+                remaining--;
+                removeMember(userId, projectId, null,
+                            {delUser:true, delProj:false, remaining:remaining});
+            });
         }
+        if (callback) callback("SUCCESS", user.fullName + " deleted!");
     });
 }
 
-// delete projectId and remove all projectId coupling
+// delete userId and remove all projects userId is a member of
 function deleteProject(projectId, callback) {
-    Project.remove({ _id : projectId }, function(err) {
-        if (err) {
-            console.error(err);
-            if (callback)
-                callback("FAILED", "error deleting project");
+    // remove user from their projects before removing user from db
+    Project.findOne({ _id : projectId }, function(err, project) {
+        if (! project) {
+            if (callback) callback("FAILED", "No project found with id " + projectId);
+            return;
         }
+        let remaining = project.members.length;
+        if (! remaining) {
+            project.remove();
+            console.log(project.name + " deleted!");
+        }
+        // remove all members from project before deleting
         else {
-            if (callback)
-                callback("SUCCESS", projectId + " deleted!");
+            project.members.map(userId => {
+                remaining--;
+                removeMember(userId, projectId, null,
+                            {delUser:false, delProj:true, remaining:remaining});
+            });
         }
+        if (callback) callback("SUCCESS", project.name + " deleted!");
     });
 }
 
@@ -252,7 +317,7 @@ function resetDb() {
         if (err) console.error(err);
         else console.log("All users deleted!");
     });
-    
+
     Project.remove({}, function(err) {
         if (err) console.error(err);
         else console.log("All projects deleted!");

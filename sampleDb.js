@@ -1,9 +1,9 @@
 /************************************************************************
-* INITIALIZE DATABASE WITH SAMPLE DATA
+* INITIALISE DATABASE WITH SAMPLE DATA
 ************************************************************************/
 const db = require('./database');
 
-// initialize db with sample data (Not used in production)
+// initialise db with sample data (Not used in production)
 function sampleDb(callback) {
 	// reset db
 	db.resetDb();
