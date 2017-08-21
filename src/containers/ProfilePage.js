@@ -28,6 +28,7 @@ function SavedCard(props) {
 }
 
 export default function ProfilePage(props) {
+    {console.log(props);}
   return (
     <div>
       <nav>

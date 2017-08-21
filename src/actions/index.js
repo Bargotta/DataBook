@@ -5,6 +5,7 @@ export const RECEIVE_USERS = 'RECEIVE_USERS'
 export const REQUEST_PROJECTS = 'REQUEST_PROJECTS'
 export const RECEIVE_PROJECTS = 'RECEIVE_PROJECTS'
 
+// fetch all users
 export function fetchUsers() {
   return dispatch => {
     dispatch(requestUsers())
@@ -28,6 +29,7 @@ function receiveUsers(json) {
   }
 }
 
+// fetch all projects
 export function fetchProjects() {
   return dispatch => {
     dispatch(requestProjects())
