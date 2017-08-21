@@ -72,7 +72,7 @@ app.route('/api/users/:userId')
     .get((req, res) => {
         db.getUser(req.params.userId, function(user) {
             res.json(user);
-        });
+        }, {});
     })
     // UPDATE...
     .put((req, res) => {

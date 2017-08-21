@@ -3,16 +3,13 @@
 ************************************************************************/
 const db = require('./database');
 
-// @global: used to randomly assign a manager for each sample project
-let manager;
-
 // initialise db with sample data (Not used in production)
 function sampleDb(callback) {
 	// reset db
 	db.resetDb();
 
 	// sample users
-	const users = [
+	const u = [
 		{ 'first' : 'Aaron',	'last' : 'Bargotta', 	'year' : 19 },
 		{ 'first' : 'Bill',		'last' : 'Johnson', 	'year' : 19 },
 		{ 'first' : 'Sam',		'last' : 'Tran', 		'year' : 18 },
@@ -26,46 +23,50 @@ function sampleDb(callback) {
 		{ 'first' : 'Victor',	'last' : 'Anderson', 	'year' : 19 },
 		{ 'first' : 'Monica',	'last' : 'Watson', 		'year' : 20 }
 	];
-	const u = users.map(user => {
-		db.createUser(user);
-	});
-	console.log(u);
 
 	// sample projects
-	const projects = [
-		{ 'name' : 'Proj 1', 'desc' : 'Sample project #1', 'members' : members(u), 'manager' : manager },
-		{ 'name' : 'Proj 2', 'desc' : 'Sample project #2', 'members' : members(u), 'manager' : manager },
-		{ 'name' : 'Proj 3', 'desc' : 'Sample project #3', 'members' : members(u), 'manager' : manager },
-		{ 'name' : 'Proj 4', 'desc' : 'Sample project #4', 'members' : members(u), 'manager' : manager },
-		{ 'name' : 'Proj 5', 'desc' : 'Sample project #5', 'members' : members(u), 'manager' : manager },
-		{ 'name' : 'Proj 6', 'desc' : 'Sample project #6', 'members' : members(u), 'manager' : manager },
-		{ 'name' : 'Proj 7', 'desc' : 'Sample project #7', 'members' : members(u), 'manager' : manager },
-		{ 'name' : 'Proj 8', 'desc' : 'Sample project #8', 'members' : members(u), 'manager' : manager }
+	const p = [
+		{ 'name' : 'Proj 1', 'desc' : 'Sample project #1' },
+		{ 'name' : 'Proj 2', 'desc' : 'Sample project #2' },
+		{ 'name' : 'Proj 3', 'desc' : 'Sample project #3' },
+		{ 'name' : 'Proj 4', 'desc' : 'Sample project #4' },
+		{ 'name' : 'Proj 5', 'desc' : 'Sample project #5' },
+		{ 'name' : 'Proj 6', 'desc' : 'Sample project #6' },
+		{ 'name' : 'Proj 7', 'desc' : 'Sample project #7' },
+		{ 'name' : 'Proj 8', 'desc' : 'Sample project #8' }
 	];
 
-	projects.map(project => {
-		db.createProject(project);
-	})
+	const users = u.map(user => {
+		return db.createUser(user);
+	});
+
+	// create projects once all users have been created @setTimeout: lazy
+	setTimeout(function() {
+		p.map(project => {
+			const members = addMembers(users);
+			project.members = members;
+			project.manager = members[0];
+			db.createProject(project);
+		});
+	}, 1000);
 
 	console.log('sample db initialized!');
-	callback("SUCCESS", "Sample database initialised!");
+	if (callback) callback("SUCCESS", "Sample database initialised!");
 }
 
 /**
-* given list of users, return a list containing 0<x<5 random userIds.
-* Set manager to be the first element in the returned list.
+* given list of users, return a list containing 1<x<5 random userIds
 */
-function members(users) {
-	const numberOfMembers = Math.floor((Math.random() * 5) + 1);
-	let randIndex = Math.floor((Math.random() * numberOfMembers) + 1);
+function addMembers(users) {
+	let numberOfMembers = Math.floor((Math.random() * 5) + 1);
 	let members = [];
 	for (let i = 0; i < numberOfMembers; i++) {
-		if (members.indexOf(users[i]._id) === -1) {
-			members.push(users[i]._id);
+		let randIndex = Math.floor((Math.random() * users.length));
+		if (members.indexOf(""+users[randIndex]._id) === -1) {
+			members.push(""+users[randIndex]._id);
 		}
-		else {
+		else
 			i--;
-		}
 	}
 	return members;
 }
