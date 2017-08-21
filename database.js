@@ -41,7 +41,7 @@ function createProject(project, callback) {
     let members = [];
 
     // get members
-    remaining = project.members.length;
+    let remaining = project.members.length;
     project.members.map(userId => {
         remaining--;
         // once all members are returned, create project
