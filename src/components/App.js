@@ -2,9 +2,7 @@ import React from 'react';
 import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
 
 import ApiPage from './ApiPage';
-import ProjectPage from './ProjectPage';
 import Home from './Home';
-import ProfilePage from './ProfilePage';
 import Directory from './Directory';
 import Community from './Community';
 import CreatePage from './CreatePage';
@@ -13,6 +11,8 @@ import EventPage from './EventPage';
 
 import Developers from '../containers/Developers';
 import Projects from '../containers/Projects';
+import ProfilePage from '../containers/ProfilePage';
+import ProjectPage from '../containers/ProjectPage';
 
 import '../css/App.css';
 import 'materialize-css/bin/materialize.css'
@@ -71,8 +71,8 @@ function Routes() {
         <Route path="community/projects/create" component={CreatePage} />
         <Route path="community/projects/ideas" component={IdeaPage} />
         <Route path="community/events" component={EventPage} />
-        <Route path="project/:id" component={ProjectPage} />
-        <Route path="profile/:id" component={ProfilePage} />
+        <Route path="community/projects/:id" component={ProjectPage} />
+        <Route path="community/developers/:id" component={ProfilePage} />
       </Route>
     </Router>
   );

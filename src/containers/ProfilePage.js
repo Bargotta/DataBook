@@ -4,11 +4,11 @@ import { CardTitle, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 
-import HoverCard from './HoverCard';
-import SaveWidget from './SaveWidget';
-import PersonIcon from './PersonIcon';
-import ProjectCard from './ProjectCard';
-import Search from './Search';
+import HoverCard from '../components/HoverCard';
+import SaveWidget from '../components/SaveWidget';
+import PersonIcon from '../components/PersonIcon';
+import ProjectCard from '../components/ProjectCard';
+import Search from '../components/Search';
 
 const ProfilePageHeader = (props) => <h2 style={{ fontSize: '2rem' }}>{props.children}</h2>;
 

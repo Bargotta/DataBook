@@ -6,7 +6,7 @@ import HoverCard from './HoverCard';
 export default function PersonCard(props) {
   return (
     <HoverCard
-      href="/profile/123"
+      href={"/community/developers/" + props.id}
       style={{color: 'black'}}
       cardStyle={{
         margin: '0.5rem 0 1rem',

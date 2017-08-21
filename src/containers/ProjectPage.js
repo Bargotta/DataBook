@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
-import PersonIcon from './PersonIcon';
-import SaveWidget from './SaveWidget';
+import PersonIcon from '../components/PersonIcon';
+import SaveWidget from '../components/SaveWidget';
 
 const ProjectPageHeader = (props) => <h3 style={{ fontSize: '2rem' }}>{props.children}</h3>;
 
